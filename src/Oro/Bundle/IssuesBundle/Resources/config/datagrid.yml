@@ -1,0 +1,128 @@
+datagrid:
+    issues-grid:
+        source:
+            type: orm
+            query:
+                select:
+                    - issue.id
+                    - issue.summary
+                    - issue.code
+                    - issue.description
+                    - type.label as typeName
+                    - priority.label as priorityName
+                    - resolution.label as resolutionName
+                    - status.label as statusName
+                    - issue.createdAt
+                    - issue.updatedAt
+                from:
+                    - { table: OroIssuesBundle:Issue, alias: issue }
+                join:
+                    left:
+                        - { join: issue.type, alias: type}
+                        - { join: issue.priority, alias: priority}
+                        - { join: issue.resolution, alias: resolution}
+                        - { join: issue.status, alias: status}
+
+        columns:
+            summary:
+                label: Summary
+            code:
+                label: Code
+            description:
+                label: Description
+            typeName:
+                label: Type
+            priorityName:
+                label: Priority
+            resolutionName:
+                label: Resolution
+            statusName:
+                label: Status
+            createdAt:
+                label: Created At
+                frontend_type: date
+            updatedAt:
+                label: Updated At
+                frontend_type: date
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oro_issue_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      oro_issue_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      oro_issue_delete
+                params:     [ id ]
+
+        sorters:
+            columns:
+                code:
+                    data_name: issue.code
+                updatedAt:
+                    data_name: issue.updatedAt
+                createdAt:
+                    data_name: issue.createdAt
+            default:
+                updatedAt: DESC
+
+        filters:
+            columns:
+                summary:
+                    type:      string
+                    data_name: summary
+                code:
+                    type:      string
+                    data_name: code
+                description:
+                    type:      string
+                    data_name: description
+                typeName:
+                    type:      string
+                    data_name: typeName
+                priorityName:
+                    type:      string
+                    data_name: priorityName
+                resolutionName:
+                    type:      string
+                    data_name: resolutionName
+                statusName:
+                    type:      string
+                    data_name: statusName
+                createdAt:
+                    type:      datetime
+                    data_name: createdAt
+                updatedAt:
+                    type:      datetime
+                    data_name: updatedAt
+
+        actions:
+            view:
+                type: navigate
+                label: View
+                link: view_link
+                icon: eye-open
+                rowAction: true
+            update:
+                type:          navigate
+                label:         Update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                label:         Delete
+                icon:          trash
+                link:          delete_link
+
+        mass_actions:
+            delete:
+                type: delete
+                entity_name: '%oro_issue.entity.class%'
+                data_identifier: issue.id
+                label: Delete
+                icon: trash

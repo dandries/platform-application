@@ -1,0 +1,9 @@
+oro:
+    issues:
+        issue:
+            entity_label: Issue
+
+        entity_plural_label: Issues
+
+        menu:
+            issues_tab.label: Issues

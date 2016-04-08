@@ -1,0 +1,19 @@
+oro_menu_config:
+    items:
+        issues_tab:
+            label: Issues
+            uri: '#'
+            extras:
+                icon: icon-group
+                position: 10
+
+        issues_list_item:
+            label: Issues List
+            route: oro_issue_index
+
+    tree:
+        application_menu:
+            children:
+                issues_tab:
+                    children:
+                        issues_list_item: ~
