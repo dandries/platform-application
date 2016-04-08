@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\IssuesBundle\Controller;
 
+use Oro\Bundle\IssuesBundle\Entity\Issue;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -29,12 +30,27 @@ class IssueController extends Controller
     }
 
     /**
-     * @Route("/delete", name="oro_issue_delete")
+     * @Route("/delete/{id}", name="oro_issue_delete", requirements={"id"="\d+"})
      * @Template
      */
-    public function deleteAction()
+    public function deleteAction(Issue $issue)
     {
-        return array();
+        $this->get('oro_issues.issue.manager')->deleteIssue($issue);
+
+        if (!$issue) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                $this->get('translator')->trans('oro.issues.controller.delete.notfound')
+            );
+            return $this->redirect($this->generateUrl('dusan_simple_index'));
+        }
+
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $this->get('translator')->trans('oro.issues.controller.delete.success')
+        );        
+        
+        return $this->redirect($this->generateUrl('oro_issue_index'));
     }
 
     /**

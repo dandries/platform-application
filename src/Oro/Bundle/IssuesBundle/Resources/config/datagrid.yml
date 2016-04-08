@@ -15,7 +15,7 @@ datagrid:
                     - issue.createdAt
                     - issue.updatedAt
                 from:
-                    - { table: OroIssuesBundle:Issue, alias: issue }
+                    - { table: '%oro_issues.entity.class%', alias: issue }
                 join:
                     left:
                         - { join: issue.type, alias: type}
@@ -25,24 +25,24 @@ datagrid:
 
         columns:
             summary:
-                label: Summary
+                label: oro.issues.issue.summary
             code:
-                label: Code
+                label: oro.issues.issue.code
             description:
-                label: Description
+                label: oro.issues.issue.description
             typeName:
-                label: Type
+                label: oro.issues.issue.type
             priorityName:
-                label: Priority
+                label: oro.issues.issue.priority
             resolutionName:
-                label: Resolution
+                label: oro.issues.issue.resolution
             statusName:
-                label: Status
+                label: oro.issues.issue.status
             createdAt:
-                label: Created At
+                label: oro.issues.issue.created_at
                 frontend_type: date
             updatedAt:
-                label: Updated At
+                label: oro.issues.issue.updated_at
                 frontend_type: date
 
         properties:
@@ -103,26 +103,26 @@ datagrid:
 
         actions:
             view:
-                type: navigate
-                label: View
-                link: view_link
-                icon: eye-open
-                rowAction: true
+                type:          navigate
+                label:         oro.issues.issue.view
+                link:          view_link
+                icon:          eye-open
+                rowAction:     true
             update:
                 type:          navigate
-                label:         Update
+                label:         oro.issues.issue.update
                 icon:          edit
                 link:          update_link
             delete:
                 type:          delete
-                label:         Delete
+                label:         oro.issues.issue.delete
                 icon:          trash
                 link:          delete_link
 
         mass_actions:
             delete:
                 type: delete
-                entity_name: '%oro_issue.entity.class%'
+                entity_name: '%oro_issues.entity.class%'
                 data_identifier: issue.id
-                label: Delete
+                label: oro.issues.issue.delete
                 icon: trash

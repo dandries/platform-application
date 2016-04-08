@@ -2,8 +2,23 @@ oro:
     issues:
         issue:
             entity_label: Issue
-
-        entity_plural_label: Issues
+            summary:  Summary
+            code: Code
+            description: Description
+            type: Type
+            status: Status
+            priority: Priority
+            resolution: Resolution
+            created_at: Created At
+            updated_at: Updated At
+            delete: Delete
+            update: Update
+            view: View
 
         menu:
             issues_tab.label: Issues
+
+        controller:
+            issues.delete.success: Issue has been successfully deleted.
+            issues.delete.fail: Unable to delete issue.
+            issues.delete.notfound: Issue has not been found.

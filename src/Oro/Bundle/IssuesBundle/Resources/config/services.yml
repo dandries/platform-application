@@ -1,6 +1,8 @@
 parameters:
-    oro_issue.entity.class: Oro\Bundle\IssuesBundle\Entity\Issue
+    oro_issues.entity.class: Oro\Bundle\IssuesBundle\Entity\Issue
+    oro_issues.issue.manager.class: Oro\Bundle\IssuesBundle\Entity\Manager\IssuesManager
+
 services:
-#    oro_issues.example:
-#        class: Oro\Bundle\IssuesBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    oro_issues.issue.manager:
+        class:                        '%oro_issues.issue.manager.class%'
+        arguments:                    ['@doctrine.orm.entity_manager',]
