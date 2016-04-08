@@ -1,0 +1,33 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: dandries
+ * Date: 07.04.2016
+ * Time: 10:55
+ */
+
+namespace Oro\Bundle\IssuesBundle\Migrations\Schema\v1_0;
+
+
+class IssueType implements Migration
+{
+
+    public function up(Schema $schema, QueryBag $queries)
+    {
+        $this->createOroIssueTypeTable($schema);
+    }
+
+    /**
+     * Create oro_issue_type table
+     *
+     * @param Schema $schema
+     */
+    protected function createOroIssueTypeTable(Schema $schema)
+    {
+        $table = $schema->createTable('oro_issue_type');
+        $table->addColumn('name', 'string', ['length' => 32]);
+        $table->addColumn('label', 'string', ['length' => 255]);
+        $table->setPrimaryKey(['name']);
+        $table->addUniqueIndex(['label'], 'UNIQ_5769A6DFEA750E8');
+    }
+}
