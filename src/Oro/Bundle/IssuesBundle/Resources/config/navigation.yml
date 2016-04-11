@@ -1,15 +1,19 @@
 oro_menu_config:
     items:
         issues_tab:
-            label: Issues
+            label: 'oro.issues.menu.issues_tab.label'
             uri: '#'
             extras:
                 icon: icon-group
                 position: 10
 
         issues_list_item:
-            label: Issues List
+            label: 'oro.issues.issue.list'
             route: oro_issue_index
+        issue_create_item:
+            label: 'oro.issues.issue.create'
+            route: oro_issue_create
+
 
     tree:
         application_menu:
@@ -17,3 +21,4 @@ oro_menu_config:
                 issues_tab:
                     children:
                         issues_list_item: ~
+                        issue_create_item: ~

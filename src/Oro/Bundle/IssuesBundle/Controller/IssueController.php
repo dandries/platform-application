@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 class IssueController extends Controller
 {
@@ -21,53 +22,58 @@ class IssueController extends Controller
     }
 
     /**
-     * @Route("/view", name="oro_issue_view")
+     * @Route("/view/{id}", name="oro_issue_view")
      * @Template
      */
-    public function viewAction()
+    public function viewAction(Issue $issue)
     {
-        return array();
-    }
-
-    /**
-     * @Route("/delete/{id}", name="oro_issue_delete", requirements={"id"="\d+"})
-     * @Template
-     */
-    public function deleteAction(Issue $issue)
-    {
-        $this->get('oro_issues.issue.manager')->deleteIssue($issue);
-
-        if (!$issue) {
-            $this->get('session')->getFlashBag()->add(
-                'error',
-                $this->get('translator')->trans('oro.issues.controller.delete.notfound')
-            );
-            return $this->redirect($this->generateUrl('dusan_simple_index'));
-        }
-
-        $this->get('session')->getFlashBag()->add(
-            'success',
-            $this->get('translator')->trans('oro.issues.controller.delete.success')
-        );        
-        
-        return $this->redirect($this->generateUrl('oro_issue_index'));
+        return array('issue' => $issue);
     }
 
     /**
      * @Route("/create", name="oro_issue_create")
-     * @Template
+     * @Template("OroIssuesBundle:Issue:update.html.twig")
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
-        return array();
+        return $this->update(new Issue(), $request);
     }
 
     /**
-     * @Route("/create", name="oro_issue_update")
+     * @Route("/update/{id}", name="oro_issue_update")
      * @Template
      */
-    public function updateAction()
+    public function updateAction(Issue $issue, Request $request)
     {
-        return array();
+        return $this->update($issue, $request);
+    }
+
+    private function update(Issue $issue, Request $request)
+    {
+        $form = $this->get('form.factory')->create('issue_type', $issue);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $issue->setReporter($this->getUser());
+            $issue->setStatus();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($issue);
+            $entityManager->flush();
+
+            return $this->get('oro_ui.router')->redirectAfterSave(
+                array(
+                    'route' => 'oro_issue_update',
+                    'parameters' => array('id' => $issue->getId()),
+                ),
+                array('route' => 'oro_issue_index'),
+                $issue
+            );
+        }
+
+        return array(
+            'entity' => $issue,
+            'form' => $form->createView(),
+        );
     }
 }

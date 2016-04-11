@@ -57,7 +57,7 @@ datagrid:
                 params:     [ id ]
             delete_link:
                 type:       url
-                route:      oro_issue_delete
+                route:      oro_issues_api_delete_issue
                 params:     [ id ]
 
         sorters:

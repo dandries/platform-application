@@ -1,0 +1,66 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% set entity = issue %}
+
+{% block navButtons %}
+    {% if resource_granted('EDIT', issue) %}
+        {{ UI.editButton({
+            'path' : path('oro_issue_update', { id: issue.id }),
+            'entity_label': 'oro.issues.issue.entity_label'|trans
+        }) }}
+    {% endif %}
+
+    {% if resource_granted('DELETE', issue) %}
+        {{ UI.deleteButton({
+            'dataUrl': path('oro_issues_api_delete_issue', {'id': issue.id}),
+            'dataRedirect': path('oro_issue_index'),
+            'aCss': 'no-hash remove-button',
+            'id': 'btn-remove-issue',
+            'dataId': issue.id,
+            'entity_label': 'oro.issues.issue.entity_label'|trans
+        }) }}
+    {% endif %}
+{% endblock navButtons %}
+
+{% block pageHeader %}
+    {% set breadcrumbs = {
+    'entity':      issue,
+    'indexPath':   path('oro_issue_index'),
+    'indexLabel': 'oro.issues.issue.entity_label'|trans,
+    'entityTitle': issue.summary
+    } %}
+    {{ parent() }}
+{% endblock pageHeader %}
+
+{% block content_data %}
+    {% set data %}
+        <div class="widget-content">
+            <div class="row-fluid form-horizontal">
+                <div class="responsive-block">
+                    {{ UI.renderProperty('oro.issues.issue.summary'|trans, issue.summary) }}
+                    {{ UI.renderProperty('oro.issues.issue.code'|trans, issue.code) }}
+                    {{ UI.renderProperty('oro.issues.issue.description'|trans, issue.description) }}
+                    {{ UI.renderProperty('oro.issues.issue.type'|trans, issue.type is null ? '' : issue.type.label) }}
+                    {{ UI.renderProperty('oro.issues.issue.status'|trans, issue.status is null ? '' : issue.status.label) }}
+                    {{ UI.renderProperty('oro.issues.issue.priority'|trans, issue.priority is null ? '' : issue.priority.label) }}
+                    {{ UI.renderProperty('oro.issues.issue.resolution'|trans, issue.resolution is null ? '' : issue.resolution.label) }}
+                    {{ UI.renderProperty('oro.issues.issue.assignee'|trans, issue.assignee.firstName ~ ' ' ~ issue.assignee.middleName ~ ' ' ~ issue.assignee.lastName) }}
+                    {{ UI.renderProperty('oro.issues.issue.reporter'|trans, issue.reporter.firstName ~ ' ' ~ issue.reporter.middleName ~ ' ' ~ issue.reporter.lastName) }}
+                </div>
+            </div>
+        </div>
+    {% endset %}
+    {% set dataBlocks = [
+    {
+    'title': 'Data'|trans,
+    'class': 'active',
+    'subblocks': [
+    { 'data' : [data] }
+    ]
+    }
+    ] %}
+
+    {% set id = 'issueView' %}
+    {% set data = { 'dataBlocks': dataBlocks } %}
+    {{ parent() }}
+{% endblock content_data %}

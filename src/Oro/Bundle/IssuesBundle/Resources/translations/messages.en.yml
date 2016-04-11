@@ -9,11 +9,15 @@ oro:
             status: Status
             priority: Priority
             resolution: Resolution
+            assignee: Assignee
+            reporter: Reporter
             created_at: Created At
             updated_at: Updated At
             delete: Delete
             update: Update
             view: View
+            create: Create Issue
+            list: Issues List
 
         menu:
             issues_tab.label: Issues

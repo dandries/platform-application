@@ -1,8 +1,33 @@
 parameters:
     oro_issues.entity.class: Oro\Bundle\IssuesBundle\Entity\Issue
     oro_issues.issue.manager.class: Oro\Bundle\IssuesBundle\Entity\Manager\IssuesManager
+    oro_issues.issue.form.type.class: Oro\Bundle\IssuesBundle\Form\Type\IssueType
+    oro_issues.issue.form.type.api.class: Oro\Bundle\IssuesBundle\Form\Type\IssueApiType
+    oro_issues.issue.form.handler.api.class: Oro\Bundle\IssuesBundle\Form\Type\IssueHandler
 
 services:
     oro_issues.issue.manager:
         class:                        '%oro_issues.issue.manager.class%'
         arguments:                    ['@doctrine.orm.entity_manager',]
+
+    oro_issues.issue_manager.api:
+        class: Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - '%oro_issues.entity.class%'
+            - '@doctrine.orm.entity_manager'
+
+    oro_issues.form.type.issue:
+        class: '%oro_issues.issue.form.type.class%'
+        tags:
+            - { name: form.type, alias: issue_type }
+
+    oro_issues.form.type.issue.api:
+        class: '%oro_issues.issue.form.type.api.class%'
+        tags:
+            - { name: form.type, alias: issue_type_api }
+
+    oro_issues.form.handler.issue.api:
+        class: '%oro_issues.issue.form.handler.api.class%'
+        tags:
+            - { name: form.type, alias: issue_form_handler_api }
