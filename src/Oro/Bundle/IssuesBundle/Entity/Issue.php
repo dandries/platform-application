@@ -8,13 +8,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\IssuesBundle\Model\ExtendIssue;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\NoteBundle\Entity\Note;
 use Oro\Bundle\TagBundle\Entity\Tag;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="oro_issue")
  * @ORM\HasLifecycleCallbacks()
+ *
+ * @Config()
  */
 class Issue extends ExtendIssue
 {
@@ -129,15 +130,6 @@ class Issue extends ExtendIssue
     protected $relatedIssues;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\NoteBundle\Entity\Note")
-     * @ORM\JoinTable(name="oro_issue_notes",
-     *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="note_id", referencedColumnName="id", onDelete="CASCADE")}
-     *      )
-     */
-    protected $notes;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
@@ -157,7 +149,6 @@ class Issue extends ExtendIssue
         $this->relatedIssues = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->notes = new ArrayCollection();
     }
 
     /**
@@ -382,22 +373,6 @@ class Issue extends ExtendIssue
     public function setRelatedIssues($relatedIssues)
     {
         $this->relatedIssues = $relatedIssues;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNotes()
-    {
-        return $this->notes;
-    }
-
-    /**
-     * @param mixed $notes
-     */
-    public function setNotes($notes)
-    {
-        $this->notes = $notes;
     }
 
     /**

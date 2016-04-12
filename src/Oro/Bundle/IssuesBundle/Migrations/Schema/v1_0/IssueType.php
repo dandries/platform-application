@@ -1,13 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dandries
- * Date: 07.04.2016
- * Time: 10:55
- */
 
 namespace Oro\Bundle\IssuesBundle\Migrations\Schema\v1_0;
 
+use Doctrine\DBAL\Schema\Schema;
+use Oro\Bundle\MigrationBundle\Migration\Migration;
+use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class IssueType implements Migration
 {
