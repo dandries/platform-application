@@ -73,13 +73,13 @@ class IssueController extends SoapController
      */
     public function getForm()
     {
-        return $this->get('orocrm_partner.form.type.partner.api');
+        return $this->get('oro_issues.form.type.issue.api');
     }
     /**
      * {@inheritdoc}
      */
     public function getFormHandler()
     {
-        return $this->get('orocrm_partner.form.handler.partner.api');
+        return $this->get('oro_issues.form.handler.issue.api');
     }
 }

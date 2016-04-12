@@ -45,6 +45,6 @@ class IssueApiType extends AbstractType
      */
     public function getName()
     {
-        return 'issue_form_handler_api';
+        return 'issue_type_api';
     }
 }
