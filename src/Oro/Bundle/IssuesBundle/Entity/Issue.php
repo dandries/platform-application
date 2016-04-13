@@ -7,8 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Oro\Bundle\IssuesBundle\Model\ExtendIssue;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\TagBundle\Entity\Tag;
 
 /**
  * @ORM\Entity()
@@ -16,11 +16,14 @@ use Oro\Bundle\TagBundle\Entity\Tag;
  * @ORM\HasLifecycleCallbacks()
  *
  * @Config(
- *  defaultValues={
- *      "workflow"={
- *          "active_workflow"="issue_flow"
+ *      defaultValues={
+ *          "workflow"={
+ *              "active_workflow"="issue_flow"
+ *          },
+ *          "tag"={
+ *              "enabled"=true
+ *          }
  *      }
- *  }
  * )
  */
 class Issue extends ExtendIssue
@@ -87,11 +90,14 @@ class Issue extends ExtendIssue
     protected $status;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\TagBundle\Entity\Tag")
-     * @ORM\JoinTable(name="oro_issue_tags",
-     *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="CASCADE")}
-     *      )
+     * @var ArrayCollection $tags
+     * @ConfigField(
+     *      defaultValues={
+     *          "merge"={
+     *              "display"=true
+     *          }
+     *      }
+     * )
      */
     protected $tags;
 
@@ -127,6 +133,22 @@ class Issue extends ExtendIssue
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
     protected $parent;
+
+    /**
+     * @var WorkflowItem
+     *
+     * @ORM\OneToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowItem")
+     * @ORM\JoinColumn(name="workflow_item_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $workflowItem;
+
+    /**
+     * @var WorkflowStep
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowStep")
+     * @ORM\JoinColumn(name="workflow_step_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $workflowStep;
 
     /**
      * @var ArrayCollection|Issue[]
@@ -379,6 +401,44 @@ class Issue extends ExtendIssue
     public function setRelatedIssues($relatedIssues)
     {
         $this->relatedIssues = $relatedIssues;
+    }
+
+    /**
+     * @param WorkflowItem $workflowItem
+     * @return Opportunity
+     */
+    public function setWorkflowItem($workflowItem)
+    {
+        $this->workflowItem = $workflowItem;
+
+        return $this;
+    }
+
+    /**
+     * @return WorkflowItem
+     */
+    public function getWorkflowItem()
+    {
+        return $this->workflowItem;
+    }
+
+    /**
+     * @param WorkflowItem $workflowStep
+     * @return Opportunity
+     */
+    public function setWorkflowStep($workflowStep)
+    {
+        $this->workflowStep = $workflowStep;
+
+        return $this;
+    }
+
+    /**
+     * @return WorkflowStep
+     */
+    public function getWorkflowStep()
+    {
+        return $this->workflowStep;
     }
 
     /**
