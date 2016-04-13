@@ -26,3 +26,19 @@ oro:
             issues.delete.success: Issue has been successfully deleted.
             issues.delete.fail: Unable to delete issue.
             issues.delete.notfound: Issue has not been found.
+
+        issue_status:
+            new: Open
+            in_progress: In progress
+            resolve: Resolve
+            close: Close
+            reopen: Reopen
+
+        workflow:
+            title: Issues Workflow
+            transitions:
+                start_progress: Start progress
+                stop_progress: Stop progress
+                resolve: Resolve
+                close: Close
+                reopen: Reopen

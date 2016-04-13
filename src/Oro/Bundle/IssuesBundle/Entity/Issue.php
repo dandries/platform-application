@@ -15,7 +15,13 @@ use Oro\Bundle\TagBundle\Entity\Tag;
  * @ORM\Table(name="oro_issue")
  * @ORM\HasLifecycleCallbacks()
  *
- * @Config()
+ * @Config(
+ *  defaultValues={
+ *      "workflow"={
+ *          "active_workflow"="issue_flow"
+ *      }
+ *  }
+ * )
  */
 class Issue extends ExtendIssue
 {
