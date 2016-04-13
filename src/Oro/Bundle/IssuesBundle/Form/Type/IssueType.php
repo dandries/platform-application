@@ -17,8 +17,12 @@ class IssueType extends AbstractType
             ->add('summary', 'text', array(
                 'required' => true
             ))
-            ->add('code')
-            ->add('description')
+            ->add('code', 'text', array(
+                'required' => true
+            ))
+            ->add('description', 'text', array(
+                'required' => true
+            ))
             ->add('type', 'entity', array(
                 'class' => 'Oro\Bundle\IssuesBundle\Entity\IssueType',
                 'choice_label' => 'label',

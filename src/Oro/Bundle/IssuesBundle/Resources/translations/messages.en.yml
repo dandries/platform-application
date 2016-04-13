@@ -18,6 +18,7 @@ oro:
             view: View
             create: Create Issue
             list: Issues List
+            entity_plural_label: Issues
 
         menu:
             issues_tab.label: Issues
