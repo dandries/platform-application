@@ -65,6 +65,36 @@ class IssueController extends Controller
         return $this->update($issue, null, $request);
     }
 
+    /**
+     * @Route("/chart/{widget}", name="oro_issue_by_status", requirements={"widget"="[\w-]+"})
+     * @Template("OroIssuesBundle:Dashboard:issuesByStatus.html.twig")
+     */
+    public function issuesByStatusChartAction($widget)
+    {
+        $issues = $this->getDoctrine()->getRepository('OroIssuesBundle:Issue')->getByStatus();
+
+        $widgetOptions = $this->get('oro_dashboard.widget_configs')->getWidgetAttributesForTwig($widget);
+        $widgetOptions['chartView'] = $this->get('oro_chart.view_builder')
+        ->setArrayData($issues)
+        ->setOptions(array(
+            'name' => 'bar_chart',
+            'data_schema' =>array(
+                'label' => array(
+                    'field_name' => 'status',
+                    'label' => 'oro.issues.issue_status_chart.status',
+                    'type' => 'string'
+                ),
+                'value' => array(
+                    'field_name' => 'total',
+                    'label' => 'oro.issues.issue_status_chart.total',
+                    'type' => 'number'
+                )
+            )
+        ))->getView();
+
+        return $widgetOptions;
+    }
+
     private function update(Issue $issue, Issue $parent = null, Request $request)
     {
         $form = $this->get('form.factory')->create('issue_type', $issue);

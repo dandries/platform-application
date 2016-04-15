@@ -62,3 +62,9 @@ oro:
         latest_issues:
             view_all: See all issues
             label: Latest issues
+
+        issue_status_chart:
+            label: Issues by status
+            description: Some description
+            status: Status
+            total: Total

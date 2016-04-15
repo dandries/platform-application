@@ -1,6 +1,11 @@
 oro_dashboard_config:
     widgets:
         latest_issues:
-            label:      oro.issues.latest_issues.label
-            route:      oro_issues_latest
+            label: oro.issues.latest_issues.label
+            route: oro_issues_latest
             route_parameters: { bundle: OroIssuesBundle, name: latestIssues }
+
+        issues_by_status:
+            label: oro.issues.issue_status_chart.label
+            route: oro_issue_by_status
+            description: oro.issues.issue_status_chart.description

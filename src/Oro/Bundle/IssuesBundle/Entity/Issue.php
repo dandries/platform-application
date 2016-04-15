@@ -11,7 +11,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Oro\Bundle\IssuesBundle\Entity\Repository\IssueRepository")
  * @ORM\Table(name="oro_issue")
  * @ORM\HasLifecycleCallbacks()
  *
