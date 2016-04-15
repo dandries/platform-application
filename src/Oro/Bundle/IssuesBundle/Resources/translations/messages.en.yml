@@ -1,9 +1,11 @@
+oro.importexport.import.oro_issues_issue.add_or_replace: Add and Replace
+
 oro:
     issues:
         issue:
             entity_label: Issue
-            summary:  Summary
-            code: Code
+            summary:  Summary2
+            code: Code2
             description: Description
             type: Type
             status: Status
@@ -19,6 +21,17 @@ oro:
             create: Create Issue
             list: Issues List
             entity_plural_label: Issues
+
+            id.label: Id1
+            summary.label: Summary1
+            code.label: Code
+            description.label: Description
+            resolution.label: Resolution
+
+        issuetype.name.label: Name
+        issuestatus.name.label: Name
+        issuepriority.name.label: Name
+        issueresolution.name.label: Name
 
         menu:
             issues_tab.label: Issues

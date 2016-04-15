@@ -18,7 +18,9 @@ class IssueController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        return [
+            'entity_class' => $this->container->getParameter('oro_issues.entity.class')
+        ];
     }
 
     /**

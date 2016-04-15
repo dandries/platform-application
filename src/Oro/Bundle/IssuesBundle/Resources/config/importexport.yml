@@ -1,0 +1,26 @@
+services:
+    #Converter
+    oro_issues.importexport.data_converter.issue:
+        parent: oro_importexport.data_converter.configurable
+
+    #Export processor
+    oro_issues.importexport.processor.export_issue:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+             - [setDataConverter, ['@oro_issues.importexport.data_converter.issue']]
+        tags:
+            - { name: oro_importexport.processor, type: export, entity: '%oro_issues.entity.class%', alias: oro_issues_issue }
+
+    # Strategy
+    oro_issues.importexport.strategy.issue.add_or_replace:
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    # Import processor
+    oro_issues.importexport.processor.import.add_or_replace:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+            - [setDataConverter, ['@oro_issues.importexport.data_converter.issue']]
+            - [setStrategy, ['@oro_issues.importexport.strategy.issue.add_or_replace']]
+        tags:
+            - { name: oro_importexport.processor, type: import, entity: '%oro_issues.entity.class%', alias: oro_issues_issue.add_or_replace }
+            - { name: oro_importexport.processor, type: import_validation, entity: '%oro_issues.entity.class%', alias: oro_issues_issue.add_or_replace }

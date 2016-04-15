@@ -10,9 +10,14 @@ namespace Oro\Bundle\IssuesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+
 /**
  * @ORM\Entity()
  * @ORM\Table(name="oro_issue_priority")
+ *
+ * @Config()
  */
 class IssuePriority
 {
@@ -22,8 +27,17 @@ class IssuePriority
      *
      * @ORM\Column(name="name", type="string", length=32)
      * @ORM\Id
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "identity"=true
+     *          }
+     *      }
+     * )
      */
     protected $name;
+
     /**
      * @var string
      *

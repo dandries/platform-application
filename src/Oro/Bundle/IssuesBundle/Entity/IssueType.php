@@ -10,9 +10,14 @@ namespace Oro\Bundle\IssuesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+
 /**
  * @ORM\Entity()
  * @ORM\Table(name="oro_issue_type")
+ *
+ * @Config()
  */
 class IssueType
 {
@@ -22,6 +27,14 @@ class IssueType
      *
      * @ORM\Column(name="name", type="string", length=32)
      * @ORM\Id
+     *
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "identity"=true
+     *          }
+     *      }
+     * )
      */
     protected $name;
 
