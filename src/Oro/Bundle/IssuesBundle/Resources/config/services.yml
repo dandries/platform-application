@@ -4,6 +4,7 @@ parameters:
     oro_issues.issue.form.type.class: Oro\Bundle\IssuesBundle\Form\Type\IssueType
     oro_issues.issue.form.type.api.class: Oro\Bundle\IssuesBundle\Form\Type\IssueApiType
     oro_issues.issue.form.handler.api.class: Oro\Bundle\IssuesBundle\Form\Handler\IssueHandler
+    oro_issues.subscriber.issue_note.class: Oro\Bundle\IssuesBundle\EventListener\AddNoteSubscriber
 
 services:
     oro_issues.issue.manager:
@@ -48,3 +49,9 @@ services:
             - '@oro_issues.form.issue.api'
             - '@request'
             - '@doctrine.orm.entity_manager'
+
+    #Subscribers
+    oro_issues.subscriber.issue_note:
+        class: '%oro_issues.subscriber.issue_note.class%'
+        tags:
+            - { name: doctrine.event_subscriber }
