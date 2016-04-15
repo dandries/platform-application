@@ -126,3 +126,49 @@ datagrid:
                 data_identifier: issue.id
                 label: oro.issues.issue.delete
                 icon: trash
+
+    #Dashboard Widget Grid
+    latest-issues-grid:
+        source:
+            type: orm
+            query:
+                select:
+                    - issue.id
+                    - issue.summary
+                    - issue.code
+                    - type.label as typeName
+                    - priority.label as priorityName
+                    - issue.updatedAt
+                from:
+                    - { table: '%oro_issues.entity.class%', alias: issue }
+                join:
+                    left:
+                        - { join: issue.type, alias: type}
+                        - { join: issue.priority, alias: priority}
+
+        columns:
+            summary:
+                label: oro.issues.issue.summary
+            code:
+                label: oro.issues.issue.code
+            typeName:
+                label: oro.issues.issue.type
+            priorityName:
+                label: oro.issues.issue.priority
+            updatedAt:
+                label: oro.issues.issue.updated_at
+                frontend_type: date
+
+        sorters:
+            columns:
+                updatedAt:
+                    data_name: issue.updatedAt
+            default:
+                updatedAt: DESC
+
+        options:
+            toolbarOptions:
+                hide: true
+                pageSize:
+                    items: [10]
+                    default_per_page: 10

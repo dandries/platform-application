@@ -53,4 +53,9 @@ class AddNoteSubscriber implements EventSubscriber
             }
         }
     }
+
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $this->preUpdate($args);
+    }
 }

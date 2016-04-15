@@ -1,0 +1,6 @@
+oro_dashboard_config:
+    widgets:
+        latest_issues:
+            label:      oro.issues.latest_issues.label
+            route:      oro_issues_latest
+            route_parameters: { bundle: OroIssuesBundle, name: latestIssues }

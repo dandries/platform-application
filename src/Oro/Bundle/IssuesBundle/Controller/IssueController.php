@@ -25,6 +25,17 @@ class IssueController extends Controller
     }
 
     /**
+     * @Route("/latest", name="oro_issues_latest")
+     * @Template("OroIssuesBundle:Dashboard:latestIssues.html.twig")
+     */
+    public function latestIssuesWidgetAction()
+    {
+        return array(
+            'widgetName' => 'latest_issues'
+        );
+    }
+
+    /**
      * @Route("/view/{id}", name="oro_issue_view")
      * @Template
      */
