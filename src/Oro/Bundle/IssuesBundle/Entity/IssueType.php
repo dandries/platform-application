@@ -22,6 +22,11 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 class IssueType
 {
 
+    const TASK = 'task';
+    const STORY = 'story';
+    const SUBTASK = 'subtask';
+    const BUG = 'bug';
+
     /**
      * @var string
      *

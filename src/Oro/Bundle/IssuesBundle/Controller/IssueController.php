@@ -3,6 +3,7 @@
 namespace Oro\Bundle\IssuesBundle\Controller;
 
 use Oro\Bundle\IssuesBundle\Entity\Issue;
+use Oro\Bundle\IssuesBundle\Entity\IssueType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -29,16 +30,19 @@ class IssueController extends Controller
      */
     public function viewAction(Issue $issue)
     {
-        return array('issue' => $issue);
+        return array(
+            'issue' => $issue,
+            'storyType' => IssueType::STORY,
+        );
     }
 
     /**
-     * @Route("/create", name="oro_issue_create")
+     * @Route("/create/{parent}", name="oro_issue_create")
      * @Template("OroIssuesBundle:Issue:update.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction(Issue $parent = null, Request $request)
     {
-        return $this->update(new Issue(), $request);
+        return $this->update(new Issue(), $parent, $request);
     }
 
     /**
@@ -47,10 +51,10 @@ class IssueController extends Controller
      */
     public function updateAction(Issue $issue, Request $request)
     {
-        return $this->update($issue, $request);
+        return $this->update($issue, null, $request);
     }
 
-    private function update(Issue $issue, Request $request)
+    private function update(Issue $issue, Issue $parent = null, Request $request)
     {
         $form = $this->get('form.factory')->create('issue_type', $issue);
         $form->handleRequest($request);
@@ -58,6 +62,7 @@ class IssueController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $issue->setReporter($this->getUser());
             $issue->setStatus();
+            $issue->setParent($parent);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($issue);

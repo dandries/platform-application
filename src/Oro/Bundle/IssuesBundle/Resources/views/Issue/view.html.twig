@@ -3,6 +3,16 @@
 {% set entity = issue %}
 
 {% block navButtons %}
+
+    {% if issue.type is not null and issue.type.name == storyType %}
+        <div class="btn-group">
+            {{ UI.addButton({
+                'path': path('oro_issue_create', {'parent': issue.id}),
+                'entity_label': 'oro.issues.issue.subtask'|trans
+            }) }}
+        </div>
+    {% endif %}
+
     {% if resource_granted('EDIT', issue) %}
         {{ UI.editButton({
             'path' : path('oro_issue_update', { id: issue.id }),

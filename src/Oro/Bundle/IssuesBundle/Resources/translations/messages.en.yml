@@ -28,6 +28,8 @@ oro:
             description.label: Description
             resolution.label: Resolution
 
+            subtask: Subtask
+
         issuetype.name.label: Name
         issuestatus.name.label: Name
         issuepriority.name.label: Name
