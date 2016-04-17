@@ -68,3 +68,5 @@ oro:
             description: Some description
             status: Status
             total: Total
+
+        assign_ticket: Ticket

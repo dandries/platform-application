@@ -1,0 +1,10 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+{% if entity is defined %}
+    <div class="btn-group">
+    {{ UI.addButton({
+        'path': path('oro_issue_create_for_user', { 'assignee': entity.id }),
+        'entity_label': 'oro.issues.assign_ticket'|trans
+    }) }}
+    </div>
+{% endif %}

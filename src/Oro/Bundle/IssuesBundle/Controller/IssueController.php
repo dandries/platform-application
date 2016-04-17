@@ -4,6 +4,7 @@ namespace Oro\Bundle\IssuesBundle\Controller;
 
 use Oro\Bundle\IssuesBundle\Entity\Issue;
 use Oro\Bundle\IssuesBundle\Entity\IssueType;
+use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -53,16 +54,26 @@ class IssueController extends Controller
      */
     public function createAction(Issue $parent = null, Request $request)
     {
-        return $this->update(new Issue(), $parent, $request);
+        return $this->update(new Issue(), $request, $parent);
     }
 
+    /**
+     * @Route("/create-user-issue/{assignee}", name="oro_issue_create_for_user")
+     * @Template("OroIssuesBundle:Issue:update.html.twig")
+     */
+    public function createUserIssueAction(User $assignee = null, Request $request)
+    {
+        $a=1;
+        return $this->update(new Issue(), $request, null, $assignee);
+    }
+    
     /**
      * @Route("/update/{id}", name="oro_issue_update")
      * @Template
      */
     public function updateAction(Issue $issue, Request $request)
     {
-        return $this->update($issue, null, $request);
+        return $this->update($issue, $request);
     }
 
     /**
@@ -95,15 +106,22 @@ class IssueController extends Controller
         return $widgetOptions;
     }
 
-    private function update(Issue $issue, Issue $parent = null, Request $request)
+    private function update(Issue $issue, Request $request, Issue $parent = null, User $assignee = null)
     {
+        if ($assignee !== null) {
+            $issue->setAssignee($assignee);
+        }
+
         $form = $this->get('form.factory')->create('issue_type', $issue);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $issue->setReporter($this->getUser());
             $issue->setStatus();
-            $issue->setParent($parent);
+
+            if ($parent !== null) {
+                $issue->setParent($parent);
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($issue);
