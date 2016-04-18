@@ -12,7 +12,6 @@ definitions:
                     class: Oro\Bundle\IssuesBundle\Entity\IssueStatus
                     attribute: $status
                     identifier: 'new'
-            - @assign_active_user: $reporter
 
     set_issue_reporter:
         label:   Set issue reporter

@@ -19,6 +19,7 @@ oro:
             update: Update
             view: View
             create: Create Issue
+            save: Issue saved successfully.
             list: Issues List
             entity_plural_label: Issues
 
@@ -69,4 +70,4 @@ oro:
             status: Status
             total: Total
 
-        assign_ticket: Ticket
+        assign_ticket: Create Ticket

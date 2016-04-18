@@ -18,6 +18,7 @@ services:
             - '%oro_issues.entity.class%'
             - '@doctrine.orm.entity_manager'
 
+    #Form Types
     oro_issues.form.type.issue:
         class: '%oro_issues.issue.form.type.class%'
         tags:
@@ -33,13 +34,13 @@ services:
         class: Symfony\Component\Form\Form
         factory_method: createNamed
         factory_service: form.factory
-        arguments: [oro_issue_form, issue_type]
+        arguments: [issue_type_form, issue_type]
 
     oro_issues.form.issue.api:
         class: Symfony\Component\Form\Form
         factory_method: createNamed
         factory_service: form.factory
-        arguments: [oro_issue_form, issue_type_api]
+        arguments: [issue_type_form, issue_type_api]
 
     #Form Handler for API
     oro_issues.form.handler.issue.api:

@@ -54,16 +54,13 @@ class IssueController extends Controller
      */
     public function createAction(Issue $parent = null, Request $request)
     {
-        return $this->update(new Issue(), $request, $parent);
-    }
+        $issue = new Issue();
 
-    /**
-     * @Route("/create-user-issue/{assignee}", name="oro_issue_create_for_user")
-     * @Template("OroIssuesBundle:Issue:update.html.twig")
-     */
-    public function createUserIssueAction(User $assignee = null, Request $request)
-    {
-        return $this->update(new Issue(), $request, null, $assignee);
+        if ($parent !== null) {
+            $issue->setParent($parent);
+        }
+
+        return $this->update($issue, $request, $parent);
     }
     
     /**
@@ -105,37 +102,25 @@ class IssueController extends Controller
         return $widgetOptions;
     }
 
-    private function update(Issue $issue, Request $request, Issue $parent = null, User $assignee = null)
+    private function update(Issue $issue)
     {
-        if ($assignee !== null) {
-            $issue->setAssignee($assignee);
-        }
-
-        $form = $this->get('form.factory')->create('issue_type', $issue);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($parent !== null) {
-                $issue->setParent($parent);
-            }
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($issue);
-            $entityManager->flush();
-
-            return $this->get('oro_ui.router')->redirectAfterSave(
-                array(
+        return $this->get('oro_form.model.update_handler')->handleUpdate(
+            $issue,
+            $this->get('oro_issues.form.handler.issue.api')->getForm(),
+            function (Issue $issue) {
+                return [
                     'route' => 'oro_issue_update',
-                    'parameters' => array('id' => $issue->getId()),
-                ),
-                array('route' => 'oro_issue_index'),
-                $issue
-            );
-        }
-
-        return array(
-            'entity' => $issue,
-            'form' => $form->createView(),
+                    'parameters' => ['id' => $issue->getId()],
+                ];
+            },
+            function (Issue $issue) {
+                return [
+                    'route' => 'oro_issue_view',
+                    'parameters' => ['id' => $issue->getId()],
+                ];
+            },
+            $this->get('translator')->trans('oro.issues.issue.save'),
+            $this->get('oro_issues.form.handler.issue.api')
         );
     }
 }
