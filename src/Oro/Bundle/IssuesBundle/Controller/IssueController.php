@@ -3,7 +3,6 @@
 namespace Oro\Bundle\IssuesBundle\Controller;
 
 use Oro\Bundle\IssuesBundle\Entity\Issue;
-use Oro\Bundle\IssuesBundle\Entity\IssueStatus;
 use Oro\Bundle\IssuesBundle\Entity\IssueType;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -116,12 +115,6 @@ class IssueController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $issue->setReporter($this->getUser());
-
-            if($issue->getStatus() === null) {
-                $issue->setStatus(IssueStatus::OPEN);
-            }
-
             if ($parent !== null) {
                 $issue->setParent($parent);
             }

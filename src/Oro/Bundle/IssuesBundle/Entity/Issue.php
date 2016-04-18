@@ -492,6 +492,20 @@ class Issue extends ExtendIssue
     }
 
     /**
+     * @param mixed $collaborators
+     */
+    public function addCollaborator($collaborator)
+    {
+        if ($this->collaborators === null) {
+            $this->collaborators = new ArrayCollection();
+        }
+
+        $this->collaborators->add($collaborator);
+    }
+
+
+
+    /**
      * @return Issue
      */
     public function getParent()
