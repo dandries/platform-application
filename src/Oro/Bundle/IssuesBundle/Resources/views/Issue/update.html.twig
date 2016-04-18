@@ -44,23 +44,30 @@
 
 {% block content_data %}
     {% set id = 'issue-edit' %}
+    {% set form_fields = [
+        form_row(form.summary),
+        form_row(form.code),
+        form_row(form.description),
+        form_row(form.type)
+    ] %}
+
+    {% if form.vars.value.id is not null %}
+        {% set form_fields = form_fields | merge([form_row(form.status)]) %}
+    {% endif %}
+
+    {% set form_fields = form_fields | merge([
+        form_row(form.priority),
+        form_row(form.resolution),
+        form_row(form.assignee),
+        form_row(form.tags)
+    ]) %}
 
     {% set dataBlocks = [{
     'title': 'General'|trans,
     'class': 'active',
     'subblocks': [{
     'title': '',
-    'data': [
-        form_row(form.summary),
-        form_row(form.code),
-        form_row(form.description),
-        form_row(form.type),
-        form_row(form.status),
-        form_row(form.priority),
-        form_row(form.resolution),
-        form_row(form.assignee),
-        form_row(form.tags),
-    ]
+    'data': form_fields
     }]
     }]
     %}

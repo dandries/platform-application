@@ -22,6 +22,12 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 class IssueStatus
 {
 
+    const OPEN = 'new';
+    const IN_PROGRESS = 'in_progress';
+    const RESOLVED = 'resolved';
+    const CLOSED = 'closed';
+    const REOPENED = 'reopened';
+
     /**
      * @var string
      *
