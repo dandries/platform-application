@@ -636,10 +636,9 @@ class Issue extends ExtendIssue
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
-    function __toString()
+    public function __toString()
     {
         return $this->summary . ' ' . $this->code;
     }
-
 
 }

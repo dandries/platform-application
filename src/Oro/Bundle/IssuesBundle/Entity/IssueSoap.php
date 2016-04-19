@@ -6,7 +6,6 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 
 use Oro\Bundle\SoapBundle\Entity\SoapEntityInterface;
 
-
 /**
  * @Soap\Alias("Oro.Bundle.IssuesBundle.Entity.Issue")
  */

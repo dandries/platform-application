@@ -52,7 +52,7 @@ class IssueController extends Controller
      * @Route("/create/{parent}", name="oro_issue_create")
      * @Template("OroIssuesBundle:Issue:update.html.twig")
      */
-    public function createAction(Issue $parent = null, Request $request)
+    public function createAction(Issue $parent = null)
     {
         $issue = new Issue();
 
@@ -63,16 +63,16 @@ class IssueController extends Controller
             $issue->setType($subtask);
         }
 
-        return $this->update($issue, $request, $parent);
+        return $this->update($issue);
     }
     
     /**
      * @Route("/update/{id}", name="oro_issue_update")
      * @Template
      */
-    public function updateAction(Issue $issue, Request $request)
+    public function updateAction(Issue $issue)
     {
-        return $this->update($issue, $request);
+        return $this->update($issue);
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\IssuesBundle\Form\Type;
 
-
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\IssuesBundle\Entity\Issue;
 use Oro\Bundle\IssuesBundle\Entity\IssueType as Type;

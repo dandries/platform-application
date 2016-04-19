@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dandries
- * Date: 15.04.2016
- * Time: 12:22
- */
 
 namespace Oro\Bundle\IssuesBundle\EventListener;
-
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
