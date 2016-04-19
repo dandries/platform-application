@@ -3,9 +3,14 @@
 namespace Oro\Bundle\IssuesBundle\Form\Type;
 
 
+use Doctrine\ORM\EntityRepository;
+use Oro\Bundle\IssuesBundle\Entity\Issue;
+use Oro\Bundle\IssuesBundle\Entity\IssueType as Type;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IssueType extends AbstractType
@@ -26,27 +31,19 @@ class IssueType extends AbstractType
             ->add('type', 'entity', array(
                 'class' => 'Oro\Bundle\IssuesBundle\Entity\IssueType',
                 'choice_label' => 'label',
-                'empty_value' => '...',
             ))
             ->add('status', 'entity', array(
                 'class' => 'Oro\Bundle\IssuesBundle\Entity\IssueStatus',
                 'choice_label' => 'label',
-                'empty_value' => '...',
             ))
             ->add('priority', 'entity', array(
                 'class' => 'Oro\Bundle\IssuesBundle\Entity\IssuePriority',
                 'choice_label' => 'label',
-                'empty_value' => '...',
-            ))
-            ->add('resolution', 'entity', array(
-                'class' => 'Oro\Bundle\IssuesBundle\Entity\IssueResolution',
-                'choice_label' => 'label',
-                'empty_value' => '...',
             ))
             ->add('assignee', 'entity', array(
                 'class' => 'Oro\Bundle\UserBundle\Entity\User',
                 'choice_label' => function(User $user){
-                    return $user->getFirstName() . ' ' . $user->getMiddleName() . ' ' . $user->getLastName();
+                    return $user->getFullName();
                 },
                 'empty_value' => '...',
             ))
@@ -54,6 +51,28 @@ class IssueType extends AbstractType
                     'label' => 'oro.tag.entity_plural_label',
                 )
             );
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /* @var $issue Issue */
+            $issue = $event->getData();
+            $form = $event->getForm();
+
+            if ($issue && $issue->getType() && $issue->getType()->getName() == Type::SUBTASK) {
+                $form->add('parent', 'entity', array(
+                    'class' => 'Oro\Bundle\IssuesBundle\Entity\Issue',
+                    'required' => true,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('i')
+                            ->where('i.type = :type')
+                            ->setParameter('type', Type::STORY);
+                    },
+                    'choice_label' => function(Issue $issue){
+                        return $issue->getCode() . ' \\ ' . $issue->getSummary();
+                    },
+                    'data' => $issue->getParent()
+                ));
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

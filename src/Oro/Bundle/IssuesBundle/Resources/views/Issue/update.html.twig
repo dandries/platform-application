@@ -51,13 +51,17 @@
         form_row(form.type)
     ] %}
 
+
+    {% if form.vars.value and form.vars.value.type.name == subtask %}
+        {% set form_fields = form_fields | merge([form_row(form.parent)]) %}
+    {% endif %}
+
     {% if form.vars.value and form.vars.value.id is not null %}
         {% set form_fields = form_fields | merge([form_row(form.status)]) %}
     {% endif %}
 
     {% set form_fields = form_fields | merge([
         form_row(form.priority),
-        form_row(form.resolution),
         form_row(form.assignee),
         form_row(form.tags)
     ]) %}

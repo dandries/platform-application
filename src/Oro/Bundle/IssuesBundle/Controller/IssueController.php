@@ -56,8 +56,11 @@ class IssueController extends Controller
     {
         $issue = new Issue();
 
-        if ($parent !== null) {
+        if ($parent !== null && $parent->getType()->getName() == IssueType::STORY) {
             $issue->setParent($parent);
+
+            $subtask = $this->getDoctrine()->getRepository('OroIssuesBundle:IssueType')->find(IssueType::SUBTASK);
+            $issue->setType($subtask);
         }
 
         return $this->update($issue, $request, $parent);
@@ -120,7 +123,13 @@ class IssueController extends Controller
                 ];
             },
             $this->get('translator')->trans('oro.issues.issue.save'),
-            $this->get('oro_issues.form.handler.issue.api')
+            $this->get('oro_issues.form.handler.issue.api'),
+            function ($entity, $form, $request) {
+                return array(
+                    'form' => $form->createView(),
+                    'subtask' => IssueType::SUBTASK
+                );
+            }
         );
     }
 }

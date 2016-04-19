@@ -43,9 +43,6 @@ triggers:
         -
             event: update
             field: status
-            priority: 10
-            queued: true
-            time_shift: 1
 
     set_issue_reporter:
         -

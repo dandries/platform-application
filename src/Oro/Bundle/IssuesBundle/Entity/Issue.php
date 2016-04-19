@@ -504,7 +504,7 @@ class Issue extends ExtendIssue
             $this->collaborators = new ArrayCollection();
         }
 
-        if (!$this->collaborators->contains($collaborator)) {
+        if ($collaborator instanceof User && !empty($collaborator->getId()) && !$this->collaborators->contains($collaborator)) {
             $this->collaborators->add($collaborator);
         }
     }
