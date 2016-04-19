@@ -15,5 +15,4 @@ class IssueRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
-
 }

@@ -640,5 +640,4 @@ class Issue extends ExtendIssue
     {
         return $this->summary . ' ' . $this->code;
     }
-
 }

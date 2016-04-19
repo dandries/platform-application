@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\IssuesBundle\Form\Type;
 
-
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;

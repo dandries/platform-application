@@ -36,7 +36,7 @@ class AddNoteSubscriber implements EventSubscriber
         $metadata = $args->getEntityManager()->getClassMetadata(get_class($entity));
 
         foreach ($metadata->associationMappings as $associationMappingKey => $associationMapping) {
-            if (strpos($associationMappingKey, self::ISSUE_ASSOCIATION_NAME) != false){
+            if (strpos($associationMappingKey, self::ISSUE_ASSOCIATION_NAME) != false) {
                 $getter = 'get' . str_replace('_', '', $associationMappingKey);
                 $issue = $entity->$getter();
 

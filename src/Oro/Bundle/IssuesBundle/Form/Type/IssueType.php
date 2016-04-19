@@ -41,15 +41,12 @@ class IssueType extends AbstractType
             ))
             ->add('assignee', 'entity', array(
                 'class' => 'Oro\Bundle\UserBundle\Entity\User',
-                'choice_label' => function(User $user){
+                'choice_label' => function (User $user) {
                     return $user->getFullName();
                 },
                 'empty_value' => '...',
             ))
-            ->add('tags', 'oro_tag_select', array(
-                    'label' => 'oro.tag.entity_plural_label',
-                )
-            );
+            ->add('tags', 'oro_tag_select', array('label' => 'oro.tag.entity_plural_label'));
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             /* @var $issue Issue */
@@ -65,7 +62,7 @@ class IssueType extends AbstractType
                             ->where('i.type = :type')
                             ->setParameter('type', Type::STORY);
                     },
-                    'choice_label' => function(Issue $issue){
+                    'choice_label' => function (Issue $issue) {
                         return $issue->getCode() . ' \\ ' . $issue->getSummary();
                     },
                     'data' => $issue->getParent()
