@@ -15,6 +15,7 @@ oro:
             reporter: Reporter
             created_at: Created At
             updated_at: Updated At
+            collaborators: Collaborators
             delete: Delete
             update: Update
             view: View
@@ -30,6 +31,7 @@ oro:
             resolution.label: Resolution
 
             subtask: Subtask
+            subtask_plural: Subtasks
             parent_story: Parent story
 
         issuetype:

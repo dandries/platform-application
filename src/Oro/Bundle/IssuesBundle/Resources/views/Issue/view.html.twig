@@ -4,7 +4,7 @@
 
 {% block navButtons %}
 
-    {% if issue.type is not null and issue.type.name == storyType %}
+    {% if issue.type and issue.type.name == storyType %}
         <div class="btn-group">
             {{ UI.addButton({
                 'path': path('oro_issue_create', {'parent': issue.id}),
@@ -58,24 +58,68 @@
                     {{ UI.renderProperty('oro.issues.issue.reporter'|trans, issue.reporter.firstName ~ ' ' ~ issue.reporter.middleName ~ ' ' ~ issue.reporter.lastName) }}
 
                     {%  if issue.parent %}
+                        {{ UI.renderHtmlProperty('oro.issues.issue.parent_story'|trans,
+                            UI.link({
+                            'path': path(
+                            'oro_issue_view', {
+                                id: issue.parent.id
+                            }),
+                            'aCss': 'no-hash',
+                            'label': issue.parent.code ~ ' \\ ' ~ issue.parent.summary
+                            })
+                        ) }}
+                    {% endif %}
+
+                    {% if issue.relatedIssues and issue.type and issue.type.name == storyType %}
                         <div class="row-fluid">
                             <div class="control-group">
-                                <label class="control-label">{{ 'oro.issues.issue.parent_story'|trans }}</label>
+                                <label class="control-label">{{ 'oro.issues.issue.subtask_plural'|trans }}</label>
                                 <div class="controls">
+                                    {% for subtask in issue.relatedIssues %}
                                     <div class="control-label">
                                         {{ UI.link({
                                             'path': path(
                                             'oro_issue_view', {
-                                                id: issue.parent.id
+                                                id: subtask.id
                                             }),
                                             'aCss': 'no-hash',
-                                            'label': issue.parent.code ~ ' \\ ' ~ issue.parent.summary
+                                            'label': subtask.code ~ ' \\ ' ~ subtask.summary
                                         }) }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if issue.collaborators %}
+                        <div class="row-fluid">
+                            <div class="control-group">
+                                <label class="control-label">{{ 'oro.issues.issue.collaborators'|trans }}</label>
+                                <div class="controls">
+                                    <div class="control-label">
+                                    {% for collaborator in issue.collaborators %}
+
+                                        {{ UI.link({
+                                            'path': path(
+                                            'oro_user_view', {
+                                                id: collaborator.id
+                                            }),
+                                            'aCss': 'no-hash',
+                                            'label': collaborator.fullName
+                                        }) }}
+
+                                        {% if loop.index < loop.length %}
+                                            ,
+                                        {% endif %}
+
+                                    {% endfor %}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {% endif %}
+
                 </div>
             </div>
         </div>
