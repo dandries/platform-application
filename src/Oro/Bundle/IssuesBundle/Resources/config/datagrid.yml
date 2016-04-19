@@ -155,10 +155,16 @@ datagrid:
                     - issue.updatedAt
                 from:
                     - { table: '%oro_issues.entity.class%', alias: issue }
+                where:
+                    and:
+                        - :user_id MEMBER OF issue.collaborators
                 join:
                     left:
                         - { join: issue.type, alias: type}
                         - { join: issue.priority, alias: priority}
+
+            bind_parameters:
+                user_id: userId
 
         columns:
             summary:
@@ -186,3 +192,138 @@ datagrid:
                 pageSize:
                     items: [10]
                     default_per_page: 10
+
+
+    #Grid used on user view page
+    user-issues-grid:
+        source:
+            type: orm
+            query:
+                select:
+                    - issue.id
+                    - issue.summary
+                    - issue.code
+                    - type.label as typeName
+                    - priority.label as priorityName
+                    - resolution.label as resolutionName
+                    - status.label as statusName
+                    - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as reporterName
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as assigneeName
+                    - issue.updatedAt
+                from:
+                    - { table: '%oro_issues.entity.class%', alias: issue }
+                where:
+                    or:
+                        - assignee.id = :user_id
+                        - reporter.id = :user_id
+                join:
+                    left:
+                        - { join: issue.type, alias: type}
+                        - { join: issue.priority, alias: priority}
+                        - { join: issue.resolution, alias: resolution}
+                        - { join: issue.status, alias: status}
+                        - { join: issue.assignee, alias: assignee}
+                        - { join: issue.reporter, alias: reporter}
+
+            bind_parameters:
+                user_id: userId
+
+        columns:
+            summary:
+                label: oro.issues.issue.summary
+            code:
+                label: oro.issues.issue.code
+            typeName:
+                label: oro.issues.issue.type
+            priorityName:
+                label: oro.issues.issue.priority
+            resolutionName:
+                label: oro.issues.issue.resolution
+            statusName:
+                label: oro.issues.issue.status
+            reporterName:
+                label: oro.issues.issue.reporter
+            assigneeName:
+                label: oro.issues.issue.assignee
+            updatedAt:
+                label: oro.issues.issue.updated_at
+                frontend_type: date
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oro_issue_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      oro_issue_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      oro_issues_api_delete_issue
+                params:     [ id ]
+
+        sorters:
+            columns:
+                code:
+                    data_name: issue.code
+                updatedAt:
+                    data_name: issue.updatedAt
+                priorityName:
+                    data_name:  priority.order
+                statusName:
+                    data_name:  status.order
+            default:
+                updatedAt: DESC
+                priorityName: DESC
+                statusName: DESC
+        filters:
+            columns:
+                summary:
+                    type:      string
+                    data_name: summary
+                code:
+                    type:      string
+                    data_name: code
+                typeName:
+                    type:      string
+                    data_name: typeName
+                priorityName:
+                    type:      string
+                    data_name: priorityName
+                resolutionName:
+                    type:      string
+                    data_name: resolutionName
+                statusName:
+                    type:      string
+                    data_name: statusName
+                updatedAt:
+                    type:      datetime
+                    data_name: updatedAt
+
+        actions:
+            view:
+                type:          navigate
+                label:         oro.issues.issue.view
+                link:          view_link
+                icon:          eye-open
+                rowAction:     true
+            update:
+                type:          navigate
+                label:         oro.issues.issue.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                label:         oro.issues.issue.delete
+                icon:          trash
+                link:          delete_link
+
+        mass_actions:
+            delete:
+                type: delete
+                entity_name: '%oro_issues.entity.class%'
+                data_identifier: issue.id
+                label: oro.issues.issue.delete
+                icon: trash

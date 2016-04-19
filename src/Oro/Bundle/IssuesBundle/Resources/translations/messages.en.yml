@@ -32,10 +32,18 @@ oro:
             subtask: Subtask
             parent_story: Parent story
 
-        issuetype.name.label: Name
-        issuestatus.name.label: Name
-        issuepriority.name.label: Name
-        issueresolution.name.label: Name
+        issuetype:
+            entity_label: Issue Type
+            name.label: Name
+        issuestatus:
+            entity_label: Issue Status
+            name.label: Name
+        issuepriority:
+            entity_label: Issue Priority
+            name.label: Name
+        issueresolution:
+            entity_label: Issue Resolution
+            name.label: Name
 
         menu:
             issues_tab.label: Issues
