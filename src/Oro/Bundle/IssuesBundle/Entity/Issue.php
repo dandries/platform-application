@@ -457,6 +457,8 @@ class Issue extends ExtendIssue
     public function setReporter($reporter)
     {
         $this->reporter = $reporter;
+
+        $this->addCollaborator($reporter);
     }
 
     /**
@@ -473,6 +475,8 @@ class Issue extends ExtendIssue
     public function setAssignee($assignee)
     {
         $this->assignee = $assignee;
+
+        $this->addCollaborator($assignee);
     }
 
     /**
@@ -500,7 +504,9 @@ class Issue extends ExtendIssue
             $this->collaborators = new ArrayCollection();
         }
 
-        $this->collaborators->add($collaborator);
+        if (!$this->collaborators->contains($collaborator)) {
+            $this->collaborators->add($collaborator);
+        }
     }
 
 
