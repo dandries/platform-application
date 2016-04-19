@@ -52,6 +52,13 @@ class IssueStatus
     protected $label;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="`order`", type="integer")
+     */
+    protected $order;
+
+    /**
      * @param string $name
      */
     public function __construct($name)
@@ -89,6 +96,22 @@ class IssueStatus
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param string $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
     }
 
     /**

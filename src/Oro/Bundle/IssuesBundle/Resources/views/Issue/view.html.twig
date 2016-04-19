@@ -56,6 +56,26 @@
                     {{ UI.renderProperty('oro.issues.issue.resolution'|trans, issue.resolution is null ? '' : issue.resolution.label) }}
                     {{ UI.renderProperty('oro.issues.issue.assignee'|trans, issue.assignee.firstName ~ ' ' ~ issue.assignee.middleName ~ ' ' ~ issue.assignee.lastName) }}
                     {{ UI.renderProperty('oro.issues.issue.reporter'|trans, issue.reporter.firstName ~ ' ' ~ issue.reporter.middleName ~ ' ' ~ issue.reporter.lastName) }}
+
+                    {%  if issue.parent %}
+                        <div class="row-fluid">
+                            <div class="control-group">
+                                <label class="control-label">{{ 'oro.issues.issue.parent_story'|trans }}</label>
+                                <div class="controls">
+                                    <div class="control-label">
+                                        {{ UI.link({
+                                            'path': path(
+                                            'oro_issue_view', {
+                                                id: issue.parent.id
+                                            }),
+                                            'aCss': 'no-hash',
+                                            'label': issue.parent.code ~ ' \\ ' ~ issue.parent.summary
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

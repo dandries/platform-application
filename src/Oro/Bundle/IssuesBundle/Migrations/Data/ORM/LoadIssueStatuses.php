@@ -16,19 +16,20 @@ class LoadIssueStatuses implements FixtureInterface
 {
 
     protected $data = array(
-        'new' => 'New',
-        'in_progress' => 'In progress',
-        'resolved' => 'Resolved',
-        'closed' => 'Closed',
-        'reopened' => 'Reopened',
+        'new' => array('label' => 'New', 'order' => 1),
+        'in_progress' => array('label' => 'In progress', 'order' => 2),
+        'resolved' => array('label' => 'Resolved', 'order' => 3),
+        'closed' => array('label' => 'Closed', 'order' => 4),
+        'reopened' => array('label' => 'Reopened', 'order' => 5),
     );
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->data as $name => $label) {
-            $status = new IssueStatus($name);
-            $status->setLabel($label);
-            $manager->persist($status);
+        foreach ($this->data as $name => $details) {
+            $priority = new IssueStatus($name);
+            $priority->setLabel($details['label']);
+            $priority->setOrder($details['order']);
+            $manager->persist($priority);
         }
 
         $manager->flush();

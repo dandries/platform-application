@@ -12,6 +12,8 @@ datagrid:
                     - priority.label as priorityName
                     - resolution.label as resolutionName
                     - status.label as statusName
+                    - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as reporterName
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as assigneeName
                     - issue.createdAt
                     - issue.updatedAt
                 from:
@@ -22,6 +24,8 @@ datagrid:
                         - { join: issue.priority, alias: priority}
                         - { join: issue.resolution, alias: resolution}
                         - { join: issue.status, alias: status}
+                        - { join: issue.assignee, alias: assignee}
+                        - { join: issue.reporter, alias: reporter}
 
         columns:
             summary:
@@ -38,6 +42,10 @@ datagrid:
                 label: oro.issues.issue.resolution
             statusName:
                 label: oro.issues.issue.status
+            reporterName:
+                label: oro.issues.issue.reporter
+            assigneeName:
+                label: oro.issues.issue.assignee
             createdAt:
                 label: oro.issues.issue.created_at
                 frontend_type: date
@@ -68,9 +76,15 @@ datagrid:
                     data_name: issue.updatedAt
                 createdAt:
                     data_name: issue.createdAt
+                priorityName:
+                    data_name:  priority.order
+                statusName:
+                    data_name:  status.order
             default:
                 updatedAt: DESC
-
+                createdAt: DESC
+                priorityName: DESC
+                statusName: DESC
         filters:
             columns:
                 summary:

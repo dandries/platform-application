@@ -11,12 +11,57 @@ Oro\Bundle\IssuesBundle\Entity\Issue:
         -
             name:                   summary
             target_type:            text
-            target_fields:          [summary]
         -
             name:                   code
             target_type:            text
-            target_fields:          [code]
         -
             name:                   description
             target_type:            text
-            target_fields:          [description]
+        -
+            name:                   type
+            relation_type:          many-to-one
+            relation_fields:
+                -
+                    name: name
+                    target_type: text
+        -
+            name:                   status
+            relation_type:          many-to-one
+            relation_fields:
+                -
+                    name: name
+                    target_type: text
+        -
+            name:                   priority
+            relation_type:          many-to-one
+            relation_fields:
+                -
+                    name: name
+                    target_type: text
+        -
+            name:                   resolved
+            relation_type:          many-to-one
+            relation_fields:
+                -
+                    name: name
+                    target_type: text
+        -
+            name:                   assignee
+            relation_type:          many-to-one
+            relation_fields:
+                -
+                    name: username
+                    target_type: text
+                -
+                    name: firstName
+                    target_type: text
+                -
+                    name: lastName
+                    target_type: text
+        -
+            name:                   reporter
+            relation_type:          many-to-one
+            relation_fields:
+                -
+                    name: username
+                    target_type: text

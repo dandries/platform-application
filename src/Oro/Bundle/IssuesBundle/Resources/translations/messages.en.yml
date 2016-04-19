@@ -30,6 +30,7 @@ oro:
             resolution.label: Resolution
 
             subtask: Subtask
+            parent_story: Parent story
 
         issuetype.name.label: Name
         issuestatus.name.label: Name
