@@ -5,11 +5,12 @@ namespace Oro\Bundle\IssuesBundle\Migrations\Schema\v1_1;
 use Doctrine\DBAL\Schema\Schema;
 
 use Oro\Bundle\MigrationBundle\Migration\Migration;
+use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
-class OroIssuesBundle implements Migration, NoteExtensionAwareInterface
+class OroIssuesBundle implements Migration, NoteExtensionAwareInterface, OrderedMigrationInterface
 {
     /** @var NoteExtension */
     protected $noteExtension;
@@ -36,5 +37,15 @@ class OroIssuesBundle implements Migration, NoteExtensionAwareInterface
     public static function addNoteAssociations(Schema $schema, NoteExtension $noteExtension)
     {
         $noteExtension->addNoteAssociation($schema, 'oro_issue');
+    }
+
+    /**
+     * Get the order of this migration
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 200;
     }
 }

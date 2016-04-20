@@ -4,9 +4,10 @@ namespace Oro\Bundle\IssuesBundle\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
+use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
-class IssuePriority implements Migration
+class IssuePriority implements Migration, OrderedMigrationInterface
 {
 
     public function up(Schema $schema, QueryBag $queries)
@@ -27,5 +28,15 @@ class IssuePriority implements Migration
         $table->addColumn('order', 'integer', []);
         $table->setPrimaryKey(['name']);
         $table->addUniqueIndex(['label'], 'UNIQ_CF28BF98EA750E8');
-    }    
+    }
+
+    /**
+     * Get the order of this migration
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 90;
+    }
 }

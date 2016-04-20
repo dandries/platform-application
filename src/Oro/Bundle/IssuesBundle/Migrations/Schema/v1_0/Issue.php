@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\IssuesBundle\Migrations\Schema\v1_0;
 
-
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
+use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
-class Issue implements Migration
+class Issue implements Migration, OrderedMigrationInterface
 {
     public function up(Schema $schema, QueryBag $queries)
     {
@@ -199,4 +199,13 @@ class Issue implements Migration
         );
     }
 
+    /**
+     * Get the order of this migration
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 91;
+    }
 }

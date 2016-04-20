@@ -544,6 +544,20 @@ class Issue extends ExtendIssue
     }
 
     /**
+     * @param Issue $relatedIssue
+     */
+    public function addRelatedIssue($relatedIssue)
+    {
+        if ($this->relatedIssues === null) {
+            $this->relatedIssues = new ArrayCollection();
+        }
+
+        if ($relatedIssue instanceof Issue && !empty($relatedIssue->getId()) && !$this->relatedIssues->contains($relatedIssue)) {
+            $this->relatedIssues->add($relatedIssue);
+        }        
+    }    
+    
+    /**
      * @param WorkflowItem $workflowItem
      * @return Opportunity
      */
