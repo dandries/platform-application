@@ -13,11 +13,9 @@ class Issue implements Migration, OrderedMigrationInterface
     {
         $this->createOroIssueTable($schema);
         $this->createOroIssueCollaboratorsTable($schema);
-        $this->createOroIssueTagsTable($schema);
 
         $this->addOroIssueForeignKeys($schema);
         $this->addOroIssueCollaboratorsForeignKeys($schema);
-        $this->addOroIssueTagsForeignKeys($schema);
     }
 
     /**
@@ -29,8 +27,10 @@ class Issue implements Migration, OrderedMigrationInterface
     {
         $table = $schema->createTable('oro_issue');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
-        $table->addColumn('status', 'string', ['notnull' => false, 'length' => 32]);
+        $table->addColumn('workflow_item_id', 'integer', ['notnull' => false]);
         $table->addColumn('priority', 'string', ['notnull' => false, 'length' => 32]);
+        $table->addColumn('workflow_step_id', 'integer', ['notnull' => false]);
+        $table->addColumn('status', 'string', ['notnull' => false, 'length' => 32]);
         $table->addColumn('type', 'string', ['notnull' => false, 'length' => 32]);
         $table->addColumn('resolution', 'string', ['notnull' => false, 'length' => 32]);
         $table->addColumn('assignee_id', 'integer', ['notnull' => false]);
@@ -42,6 +42,7 @@ class Issue implements Migration, OrderedMigrationInterface
         $table->addColumn('createdAt', 'datetime', []);
         $table->addColumn('updatedAt', 'datetime', []);
         $table->setPrimaryKey(['id']);
+        $table->addUniqueIndex(['workflow_item_id'], 'UNIQ_DF0F9E3B1023C4EE');
         $table->addIndex(['priority'], 'IDX_DF0F9E3B62A6DC27', []);
         $table->addIndex(['reporter_id'], 'IDX_DF0F9E3BE1CFE6F5', []);
         $table->addIndex(['assignee_id'], 'IDX_DF0F9E3B59EC7D60', []);
@@ -49,6 +50,7 @@ class Issue implements Migration, OrderedMigrationInterface
         $table->addIndex(['type'], 'IDX_DF0F9E3B8CDE5729', []);
         $table->addIndex(['resolution'], 'IDX_DF0F9E3BFDD30F8A', []);
         $table->addIndex(['status'], 'IDX_DF0F9E3B7B00651C', []);
+        $table->addIndex(['workflow_step_id'], 'IDX_DF0F9E3B71FE882C', []);
     }
 
     /**
@@ -67,21 +69,6 @@ class Issue implements Migration, OrderedMigrationInterface
     }
 
     /**
-     * Create oro_issue_tags table
-     *
-     * @param Schema $schema
-     */
-    protected function createOroIssueTagsTable(Schema $schema)
-    {
-        $table = $schema->createTable('oro_issue_tags');
-        $table->addColumn('issue_id', 'integer', []);
-        $table->addColumn('tag_id', 'integer', []);
-        $table->setPrimaryKey(['issue_id', 'tag_id']);
-        $table->addIndex(['issue_id'], 'IDX_B40B65D05E7AA58C', []);
-        $table->addIndex(['tag_id'], 'IDX_B40B65D0BAD26311', []);
-    }
-
-    /**
      * Add oro_issue foreign keys.
      *
      * @param Schema $schema
@@ -90,14 +77,26 @@ class Issue implements Migration, OrderedMigrationInterface
     {
         $table = $schema->getTable('oro_issue');
         $table->addForeignKeyConstraint(
-            $schema->getTable('oro_issue_status'),
-            ['status'],
-            ['name'],
+            $schema->getTable('oro_workflow_item'),
+            ['workflow_item_id'],
+            ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_issue_priority'),
             ['priority'],
+            ['name'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_workflow_step'),
+            ['workflow_step_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_issue_status'),
+            ['status'],
             ['name'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
@@ -166,28 +165,6 @@ class Issue implements Migration, OrderedMigrationInterface
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_note'),
             ['note_id'],
-            ['id'],
-            ['onDelete' => 'CASCADE', 'onUpdate' => null]
-        );
-        $table->addForeignKeyConstraint(
-            $schema->getTable('oro_issue'),
-            ['issue_id'],
-            ['id'],
-            ['onDelete' => 'CASCADE', 'onUpdate' => null]
-        );
-    }
-
-    /**
-     * Add oro_issue_tags foreign keys.
-     *
-     * @param Schema $schema
-     */
-    protected function addOroIssueTagsForeignKeys(Schema $schema)
-    {
-        $table = $schema->getTable('oro_issue_tags');
-        $table->addForeignKeyConstraint(
-            $schema->getTable('oro_tag_tag'),
-            ['tag_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );

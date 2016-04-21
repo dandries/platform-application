@@ -52,7 +52,7 @@
     ] %}
 
 
-    {% if form.vars.value and form.vars.value.type.name == subtask %}
+    {% if form.vars.value.type and form.vars.value.type.name == subtask %}
         {% set form_fields = form_fields | merge([form_row(form.parent)]) %}
     {% endif %}
 

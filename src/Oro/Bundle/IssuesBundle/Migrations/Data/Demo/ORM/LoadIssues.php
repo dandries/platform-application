@@ -54,10 +54,10 @@ class LoadIssues implements FixtureInterface, DependentFixtureInterface
 
             $issue = new Issue();
             $issue->setSummary('Test issue #' . $i++);
-            $issue->setCode('Code' . $i++);
+            $issue->setCode('Code' . $i);
             $issue->setDescription($description);
             $issue->setType($types[rand(0, $typesCount - 1)]);
-            $issue->setStatus($statuses[rand(0, $statusesCount - 1)]);
+            $issue->setStatus($statuses[0]);
             $issue->setResolution($resolutions[rand(0, $resolutionsCount - 1)]);
             $issue->setPriority($priorities[rand(0, $prioritiesCount - 1)]);
             $issue->setReporter($users[rand(0, $usersCount - 1)]);

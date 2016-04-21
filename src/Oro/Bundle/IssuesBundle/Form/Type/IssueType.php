@@ -27,6 +27,13 @@ class IssueType extends AbstractType
             ->add('description', 'text', array(
                 'required' => true
             ))
+            ->add('parent', 'entity', array(
+                'class' => 'Oro\Bundle\IssuesBundle\Entity\Issue',
+                'required' => false,
+                'choice_label' => function (Issue $issue) {
+                    return $issue->getCode() . ' \\ ' . $issue->getSummary();
+                },
+            ))
             ->add('type', 'entity', array(
                 'class' => 'Oro\Bundle\IssuesBundle\Entity\IssueType',
                 'choice_label' => 'label',
@@ -47,28 +54,6 @@ class IssueType extends AbstractType
                 'empty_value' => '...',
             ))
             ->add('tags', 'oro_tag_select', array('label' => 'oro.tag.entity_plural_label'));
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            /* @var $issue Issue */
-            $issue = $event->getData();
-            $form = $event->getForm();
-
-            if ($issue && $issue->getType() && $issue->getType()->getName() == Type::SUBTASK) {
-                $form->add('parent', 'entity', array(
-                    'class' => 'Oro\Bundle\IssuesBundle\Entity\Issue',
-                    'required' => true,
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('i')
-                            ->where('i.type = :type')
-                            ->setParameter('type', Type::STORY);
-                    },
-                    'choice_label' => function (Issue $issue) {
-                        return $issue->getCode() . ' \\ ' . $issue->getSummary();
-                    },
-                    'data' => $issue->getParent()
-                ));
-            }
-        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

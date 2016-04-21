@@ -10,7 +10,7 @@
 
 {% block actions %}
     {% set actions = [{
-        'url': path('oro_issue_index'),
+        'url': path('oro_issue_index', { 'issues-grid': { '_filter': { 'collaborator': { 'value': app.user.id, 'type': '1' } } }}),
         'type': 'link',
         'label': 'oro.issues.latest_issues.view_all'|trans
     }] %}

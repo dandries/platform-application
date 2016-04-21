@@ -16,6 +16,7 @@ datagrid:
                     - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as assigneeName
                     - issue.createdAt
                     - issue.updatedAt
+                    - collaborators.username
                 from:
                     - { table: '%oro_issues.entity.class%', alias: issue }
                 join:
@@ -26,6 +27,7 @@ datagrid:
                         - { join: issue.status, alias: status}
                         - { join: issue.assignee, alias: assignee}
                         - { join: issue.reporter, alias: reporter}
+                        - { join: issue.collaborators, alias: collaborators}
 
         columns:
             summary:
@@ -114,6 +116,11 @@ datagrid:
                 updatedAt:
                     type:      datetime
                     data_name: updatedAt
+                collaborator:
+                     type: choice-tree
+                     data_name: collaborators
+                     options:
+                        data: '@oro_user.provider.filter.user_choice_tree->getList'
 
         actions:
             view:
