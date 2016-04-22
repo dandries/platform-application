@@ -99,4 +99,18 @@ class IssueControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertContains("Summary update", $crawler->html());
     }
+
+    /**
+     * @depends testCreate
+     */
+    public function testIssuesByStatusChart()
+    {
+        $this->client->request(
+            'GET',
+            $this->getUrl('oro_issue_by_status', array('widget' => 'issues_by_status'))
+        );
+
+        $result = $this->client->getResponse();
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+    }
 }

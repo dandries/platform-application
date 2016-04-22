@@ -65,7 +65,7 @@ class IssueController extends SoapController
      */
     public function getManager()
     {
-        return $this->get('oro_issues.issue_manager.api');
+        return $this->container->get('oro_issues.issue_manager.api');
     }
 
     /**
@@ -73,13 +73,13 @@ class IssueController extends SoapController
      */
     public function getForm()
     {
-        return $this->get('oro_issues.form.type.issue.api');
+        return $this->container->get('oro_issues.form.issue.api');
     }
     /**
      * {@inheritdoc}
      */
     public function getFormHandler()
     {
-        return $this->get('oro_issues.form.handler.issue.api');
+        return $this->container->get('oro_issues.form.handler.issue.api');
     }
 }
