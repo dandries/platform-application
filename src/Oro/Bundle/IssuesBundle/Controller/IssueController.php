@@ -4,8 +4,9 @@ namespace Oro\Bundle\IssuesBundle\Controller;
 
 use Oro\Bundle\IssuesBundle\Entity\Issue;
 use Oro\Bundle\IssuesBundle\Entity\IssueType;
-use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Oro\Bundle\SecurityBundle\Annotation\Acl;
+use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -16,6 +17,8 @@ class IssueController extends Controller
 
     /**
      * @Route("/", name="oro_issue_index")
+     * @AclAncestor("oro_issues.issue_view")
+     *
      * @Template
      */
     public function indexAction()
@@ -27,6 +30,8 @@ class IssueController extends Controller
 
     /**
      * @Route("/latest", name="oro_issues_latest")
+     * @AclAncestor("oro_issues.issue_view")
+     *
      * @Template("OroIssuesBundle:Dashboard:latestIssues.html.twig")
      */
     public function latestIssuesWidgetAction()
@@ -38,6 +43,13 @@ class IssueController extends Controller
 
     /**
      * @Route("/view/{id}", name="oro_issue_view")
+     * @Acl(
+     *      id="oro_issues.issue_view",
+     *      type="entity",
+     *      permission="VIEW",
+     *      class="OroIssuesBundle:Issue"
+     * )
+     *
      * @Template
      */
     public function viewAction(Issue $issue)
@@ -50,6 +62,13 @@ class IssueController extends Controller
 
     /**
      * @Route("/create/{parent}", name="oro_issue_create")
+     * @Acl(
+     *      id="oro_issues.issue_create",
+     *      type="entity",
+     *      permission="CREATE",
+     *      class="OroIssuesBundle:Issue"
+     * )
+     *
      * @Template("OroIssuesBundle:Issue:update.html.twig")
      */
     public function createAction(Issue $parent = null)
@@ -68,6 +87,13 @@ class IssueController extends Controller
     
     /**
      * @Route("/update/{id}", name="oro_issue_update")
+     * @Acl(
+     *      id="oro_issues.issue_update",
+     *      type="entity",
+     *      permission="EDIT",
+     *      class="OroIssuesBundle:Issue"
+     * )
+     *
      * @Template
      */
     public function updateAction(Issue $issue)
@@ -77,6 +103,8 @@ class IssueController extends Controller
 
     /**
      * @Route("/chart/{widget}", name="oro_issue_by_status", requirements={"widget"="[\w-]+"})
+     * @AclAncestor("oro_issues.issue_view")
+     *
      * @Template("OroIssuesBundle:Dashboard:issuesByStatus.html.twig")
      */
     public function issuesByStatusChartAction($widget)

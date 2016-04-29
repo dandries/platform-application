@@ -10,6 +10,8 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 
+use Oro\Bundle\SecurityBundle\Annotation\Acl;
+use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 use Oro\Bundle\SoapBundle\Form\Handler\ApiFormHandler;
@@ -41,6 +43,8 @@ class IssueController extends RestController
      *      resource=true
      * )
      *
+     * @AclAncestor("oro_issues.issue_view")
+     *
      * @return Response
      */
     public function cgetAction(Request $request)
@@ -60,6 +64,8 @@ class IssueController extends RestController
      *      resource=true
      * )
      *
+     * @AclAncestor("oro_issues.issue_view")
+     *
      * @return Response
      */
     public function getAction($id)
@@ -78,6 +84,8 @@ class IssueController extends RestController
      *      resource=true
      * )
      *
+     * @AclAncestor("oro_issues.issue_update")
+     *
      * @return Response
      */
     public function putAction($id)
@@ -91,6 +99,9 @@ class IssueController extends RestController
      *      description="Create new issue",
      *      resource=true
      * )
+     *
+     * @AclAncestor("oro_issues.issue_create")
+     *
      */
     public function postAction()
     {
@@ -105,6 +116,13 @@ class IssueController extends RestController
      * @ApiDoc(
      *      description="Delete issue",
      *      resource=true
+     * )
+     *
+     * @Acl(
+     *      id="oro_issues.issue_delete",
+     *      type="entity",
+     *      class="OroIssuesBundle:Issue",
+     *      permission="DELETE"
      * )
      *
      * @return Response
