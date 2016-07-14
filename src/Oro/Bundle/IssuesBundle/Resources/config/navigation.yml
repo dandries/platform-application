@@ -22,3 +22,9 @@ oro_menu_config:
                     children:
                         issues_list_item: ~
                         issue_create_item: ~
+
+oro_titles:
+    oro_issue_index: 'oro.issues.issue.list'
+    oro_issue_view: 'oro.issues.issue.view'
+    oro_issue_create: 'oro.issues.issue.create'
+    oro_issue_update: 'oro.issues.issue.update'

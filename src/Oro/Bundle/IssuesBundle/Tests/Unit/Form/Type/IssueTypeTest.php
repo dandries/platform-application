@@ -36,7 +36,6 @@ class IssueTypeTest extends \PHPUnit_Framework_TestCase
             'summary' => 'text',
             'code' => 'text',
             'description' => 'text',
-            'parent' => 'entity',
             'type' => 'entity',
             'status' => 'entity',
             'priority' => 'entity',

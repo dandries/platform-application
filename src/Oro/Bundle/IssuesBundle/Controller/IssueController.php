@@ -111,6 +111,12 @@ class IssueController extends Controller
     {
         $issues = $this->getDoctrine()->getRepository('OroIssuesBundle:Issue')->getByStatus();
 
+        $translator = $this->get('translator');
+
+        foreach ($issues as &$item) {
+            $item['status'] = $translator->trans($item['status']);
+        }
+
         $widgetOptions = $this->get('oro_dashboard.widget_configs')->getWidgetAttributesForTwig($widget);
         $widgetOptions['chartView'] = $this->get('oro_chart.view_builder')
         ->setArrayData($issues)
@@ -127,6 +133,9 @@ class IssueController extends Controller
                     'label' => 'oro.issues.issue_status_chart.total',
                     'type' => 'number'
                 )
+            ),
+            'settings' => array(
+                'xNoTicks' => count($issues)
             )
         ))->getView();
 

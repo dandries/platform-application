@@ -17,8 +17,8 @@ oro:
             updated_at: Updated At
             collaborators: Collaborators
             delete: Delete
-            update: Update
-            view: View
+            update: Update issue
+            view: View issue
             create: Create Issue
             save: Issue saved successfully.
             list: Issues List
@@ -29,6 +29,18 @@ oro:
             code.label: Code
             description.label: Description
             resolution.label: Resolution
+            type.label: Type
+            status.label: Status
+            assignee.label: Assignee
+            collaborators.label: Collaborators
+            reporter.label: Reporter
+            created_at.label: Created At
+            updated_at.label: Updated At
+            priority.label: Priority
+            parent.label: Parent
+            related_issues.label: Related Issues
+            workflow_item.label: Workflow Item
+            workflow_step.label: Workflow Step
 
             subtask: Subtask
             subtask_plural: Subtasks
@@ -37,15 +49,21 @@ oro:
         issuetype:
             entity_label: Issue Type
             name.label: Name
+            label.label: Label
         issuestatus:
             entity_label: Issue Status
             name.label: Name
+            label.label: Label
+            order.label: Order
         issuepriority:
             entity_label: Issue Priority
             name.label: Name
+            label.label: Label
+            order.label: Order
         issueresolution:
             entity_label: Issue Resolution
             name.label: Name
+            label.label: Label
 
         menu:
             issues_tab.label: Issues
@@ -54,6 +72,7 @@ oro:
             issues.delete.success: Issue has been successfully deleted.
             issues.delete.fail: Unable to delete issue.
             issues.delete.notfound: Issue has not been found.
+            issues.created_success: Issue created successfuly
 
         issue_status:
             new: Open
@@ -82,3 +101,9 @@ oro:
             total: Total
 
         assign_ticket: Create Ticket
+
+closed: Closed
+in_progress: In Progress
+new: New
+reopened: Reopened
+resolved: Resolved

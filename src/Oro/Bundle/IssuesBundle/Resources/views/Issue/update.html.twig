@@ -27,6 +27,16 @@
     {{ UI.dropdownSaveButton({ 'html': html }) }}
 {% endblock navButtons %}
 
+{% block breadcrumb %}
+    {% if breadcrumbs is not defined %}
+        {% set breadcrumbs = [{'label': 'oro.issues.issue.entity_label'|trans }] %}
+        {% if entity.summary is not empty %}
+            {% set breadcrumbs = breadcrumbs|merge([{'label': entity.summary}]) %}
+        {% endif %}
+    {% endif %}
+    {% include 'OroNavigationBundle:Menu:breadcrumbs.html.twig' %}
+{% endblock breadcrumb %}
+
 {% block pageHeader %}
     {% if form.vars.value and form.vars.value.id %}
         {% set breadcrumbs = {
@@ -43,41 +53,42 @@
 {% endblock pageHeader %}
 
 {% block content_data %}
+    {% set formData = [form_row(form)] %}
+
     {% set id = 'issue-edit' %}
-    {% set form_fields = [
-        form_row(form.summary),
-        form_row(form.code),
-        form_row(form.description),
-        form_row(form.type)
-    ] %}
-
-
-    {% if form.vars.value.type and form.vars.value.type.name == subtask %}
-        {% set form_fields = form_fields | merge([form_row(form.parent)]) %}
-    {% endif %}
-
-    {% if form.vars.value and form.vars.value.id is not null %}
-        {% set form_fields = form_fields | merge([form_row(form.status)]) %}
-    {% endif %}
-
-    {% set form_fields = form_fields | merge([
-        form_row(form.priority),
-        form_row(form.assignee),
-        form_row(form.tags)
-    ]) %}
-
     {% set dataBlocks = [{
-    'title': 'General'|trans,
-    'class': 'active',
-    'subblocks': [{
-    'title': '',
-    'data': form_fields
-    }]
-    }]
-    %}
+        'title': 'General'|trans,
+        'class': 'active',
+        'subblocks': [{'title': '','data': formData}]
+    }] %}
     {% set data = {
-    'formErrors': form_errors(form)? form_errors(form) : null,
-    'dataBlocks': dataBlocks,
+        'formErrors': form_errors(form)? form_errors(form) : null,
+        'dataBlocks': dataBlocks,
     } %}
     {{ parent() }}
+    
 {% endblock content_data %}
+
+{% block content %}
+    {% if isWidgetContext %}
+        <script type="text/javascript">
+            require(['oroui/js/widget-manager', 'oroui/js/messenger'],
+                    function(widgetManager, messenger) {
+                        widgetManager.getWidgetInstance(
+                                {{ app.request.get('_wid')|json_encode|raw }},
+                                function(widget) {
+                                    widget.on('formSave', function() {
+                                        if (widget.disposing) {
+                                            return false;
+                                        }
+                                        var message = '{{ 'oro.issues.controller.issues.created_success'|trans }}';
+                                        messenger.notificationFlashMessage('success', message);
+                                        widget.remove();
+                                    });
+                                }
+                        );
+                    });
+        </script>
+    {% endif %}
+    {{ parent() }}
+{% endblock content %}

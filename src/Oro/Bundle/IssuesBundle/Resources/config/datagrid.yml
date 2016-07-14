@@ -1,5 +1,6 @@
 datagrid:
     issues-grid:
+        extended_entity_name: Oro\Bundle\IssuesBundle\Entity\Issue
         source:
             type: orm
             query:
@@ -119,6 +120,7 @@ datagrid:
                 collaborator:
                      type: choice-tree
                      data_name: collaborators
+                     label: oro.issues.issue.collaborators
                      options:
                         data: '@oro_user.provider.filter.user_choice_tree->getList'
 

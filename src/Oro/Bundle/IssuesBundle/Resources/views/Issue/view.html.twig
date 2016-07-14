@@ -1,5 +1,7 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 {% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+
 {% set entity = issue %}
 
 {% block navButtons %}
@@ -32,12 +34,22 @@
     {% endif %}
 {% endblock navButtons %}
 
+{% block breadcrumb %}
+    {% if breadcrumbs is not defined %}
+        {% set breadcrumbs = [{'label': 'oro.issues.issue.entity_label'|trans }] %}
+        {% if entity.summary is not empty %}
+            {% set breadcrumbs = breadcrumbs|merge([{'label': entity.summary}]) %}
+        {% endif %}
+    {% endif %}
+    {% include 'OroNavigationBundle:Menu:breadcrumbs.html.twig' %}
+{% endblock breadcrumb %}
+
 {% block pageHeader %}
     {% set breadcrumbs = {
     'entity':      issue,
     'indexPath':   path('oro_issue_index'),
     'indexLabel': 'oro.issues.issue.entity_label'|trans,
-    'entityTitle': issue.summary
+    'entityTitle': issue.summary |default('N/A'|trans)
     } %}
     {{ parent() }}
 {% endblock pageHeader %}
@@ -56,6 +68,7 @@
                     {{ UI.renderProperty('oro.issues.issue.resolution'|trans, issue.resolution is null ? '' : issue.resolution.label) }}
                     {{ UI.renderProperty('oro.issues.issue.assignee'|trans, issue.assignee.firstName ~ ' ' ~ issue.assignee.middleName ~ ' ' ~ issue.assignee.lastName) }}
                     {{ UI.renderProperty('oro.issues.issue.reporter'|trans, issue.reporter.firstName ~ ' ' ~ issue.reporter.middleName ~ ' ' ~ issue.reporter.lastName) }}
+                    {{ entityConfig.renderDynamicFields(entity) }}
 
                     {%  if issue.parent %}
                         {{ UI.renderHtmlProperty('oro.issues.issue.parent_story'|trans,
@@ -119,7 +132,6 @@
                             </div>
                         </div>
                     {% endif %}
-
                 </div>
             </div>
         </div>
