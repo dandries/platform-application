@@ -10,11 +10,13 @@ namespace Oro\Bundle\IssuesBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+
 use Oro\Bundle\IssuesBundle\Entity\IssueResolution;
 
 class LoadIssueResolutions implements FixtureInterface
 {
 
+    /** @var array $data */
     protected $data = array(
         'fixed' => 'Fixed',
         'wont_fix' => 'Won\'t Fix',
@@ -26,6 +28,9 @@ class LoadIssueResolutions implements FixtureInterface
         'rejected' => 'Rejected',
     );
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         foreach ($this->data as $name => $label) {

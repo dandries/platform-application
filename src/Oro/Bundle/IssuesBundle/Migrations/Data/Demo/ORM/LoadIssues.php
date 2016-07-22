@@ -10,6 +10,7 @@ use Oro\Bundle\IssuesBundle\Entity\Issue;
 
 class LoadIssues implements FixtureInterface, DependentFixtureInterface
 {
+    /** @var array $descriptions */
     protected $descriptions = array(
         'Lorem ipsum dolor sit amet, consectetuer adipiscing elit',
         'Aenean commodo ligula eget dolor',
@@ -33,6 +34,9 @@ class LoadIssues implements FixtureInterface, DependentFixtureInterface
         'Donec posuere vulputate',
     );
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
 
@@ -51,7 +55,6 @@ class LoadIssues implements FixtureInterface, DependentFixtureInterface
 
 
         foreach ($this->descriptions as $description) {
-
             $issue = new Issue();
             $issue->setSummary('Test issue #' . $i++);
             $issue->setCode('Code' . $i);
@@ -75,7 +78,7 @@ class LoadIssues implements FixtureInterface, DependentFixtureInterface
      *
      * @return array
      */
-    function getDependencies()
+    public function getDependencies()
     {
         return array(
             'Oro\Bundle\IssuesBundle\Migrations\Data\ORM\LoadIssueTypes',

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Oro\Bundle\IssuesBundle\Tests\Unit\Form\Type;
-
 
 use Oro\Bundle\IssuesBundle\Form\Type\IssueType;
 

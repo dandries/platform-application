@@ -165,7 +165,8 @@ class IssueControllerTest extends WebTestCase
         $this->assertJsonResponseStatusCodeEquals($result, 404);
     }
 
-    private function checkIssue($actual = array()) {
+    private function checkIssue($actual = array())
+    {
         $this->assertArrayIntersectEquals(
             array(
                 'summary' => $this->issuePostData['summary'],

@@ -10,11 +10,13 @@ namespace Oro\Bundle\IssuesBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+
 use Oro\Bundle\IssuesBundle\Entity\IssuePriority;
 
 class LoadIssuePriorities implements FixtureInterface
 {
 
+    /** @var array $data */
     protected $data = array(
         'minor' => array('label' => 'Minor', 'order' => 1),
         'trivial' => array('label' => 'Trivial', 'order' => 2),
@@ -23,6 +25,9 @@ class LoadIssuePriorities implements FixtureInterface
         'blocker' => array('label' => 'Blocker', 'order' => 5),
     );
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         foreach ($this->data as $name => $details) {

@@ -504,7 +504,9 @@ class Issue extends ExtendIssue
             $this->collaborators = new ArrayCollection();
         }
 
-        if ($collaborator instanceof User && !empty($collaborator->getId()) && !$this->collaborators->contains($collaborator)) {
+        if ($collaborator instanceof User && !empty($collaborator->getId())
+            && !$this->collaborators->contains($collaborator)
+        ) {
             $this->collaborators->add($collaborator);
         }
     }
@@ -552,10 +554,12 @@ class Issue extends ExtendIssue
             $this->relatedIssues = new ArrayCollection();
         }
 
-        if ($relatedIssue instanceof Issue && !empty($relatedIssue->getId()) && !$this->relatedIssues->contains($relatedIssue)) {
+        if ($relatedIssue instanceof Issue && !empty($relatedIssue->getId())
+            && !$this->relatedIssues->contains($relatedIssue)
+        ) {
             $this->relatedIssues->add($relatedIssue);
-        }        
-    }    
+        }
+    }
     
     /**
      * @param WorkflowItem $workflowItem

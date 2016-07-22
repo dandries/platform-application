@@ -3,13 +3,16 @@
 namespace Oro\Bundle\IssuesBundle\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
+
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class IssueResolution implements Migration, OrderedMigrationInterface
 {
-
+    /**
+     * {@inheritdoc}
+     */
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->createOroIssueResolutionTable($schema);

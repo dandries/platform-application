@@ -6,6 +6,9 @@ use Doctrine\ORM\EntityRepository;
 
 class IssueRepository extends EntityRepository
 {
+    /**
+     * @return array
+     */
     public function getByStatus()
     {
         $qb = $this->createQueryBuilder('i')

@@ -4,6 +4,7 @@ namespace Oro\Bundle\IssuesBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+
 use Oro\Bundle\IssuesBundle\Entity\Issue;
 use Oro\Bundle\NoteBundle\Entity\Note;
 
@@ -25,6 +26,9 @@ class AddNoteSubscriber implements EventSubscriber
         );
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function preUpdate(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
@@ -47,6 +51,9 @@ class AddNoteSubscriber implements EventSubscriber
         }
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function prePersist(LifecycleEventArgs $args)
     {
         $this->preUpdate($args);

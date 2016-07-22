@@ -10,11 +10,12 @@ namespace Oro\Bundle\IssuesBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+
 use Oro\Bundle\IssuesBundle\Entity\IssueType;
 
 class LoadIssueTypes implements FixtureInterface
 {
-
+    /** @var array $data */
     protected $data = array(
         'task' => 'Task',
         'story' => 'Story',
@@ -22,6 +23,9 @@ class LoadIssueTypes implements FixtureInterface
         'bug' => 'Bug',
     );
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         foreach ($this->data as $name => $label) {

@@ -10,11 +10,12 @@ namespace Oro\Bundle\IssuesBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+
 use Oro\Bundle\IssuesBundle\Entity\IssueStatus;
 
 class LoadIssueStatuses implements FixtureInterface
 {
-
+    /** @var array $data */
     protected $data = array(
         'new' => array('label' => 'New', 'order' => 1),
         'in_progress' => array('label' => 'In progress', 'order' => 2),
@@ -23,6 +24,9 @@ class LoadIssueStatuses implements FixtureInterface
         'reopened' => array('label' => 'Reopened', 'order' => 5),
     );
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         foreach ($this->data as $name => $details) {

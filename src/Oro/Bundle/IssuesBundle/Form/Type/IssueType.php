@@ -3,14 +3,14 @@
 namespace Oro\Bundle\IssuesBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use Oro\Bundle\IssuesBundle\Entity\Issue;
 use Oro\Bundle\IssuesBundle\Entity\IssueType as Type;
 use Oro\Bundle\UserBundle\Entity\User;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IssueType extends AbstractType
 {
@@ -30,6 +30,10 @@ class IssueType extends AbstractType
             ->add('type', 'entity', array(
                 'class' => 'Oro\Bundle\IssuesBundle\Entity\IssueType',
                 'choice_label' => 'label',
+                'query_builder' => function (EntityRepository $er) {
+                    $qb = $er->createQueryBuilder('itype');
+                    return $qb->where($qb->expr()->neq('itype.name', $qb->expr()->literal(Type::SUBTASK)));
+                }
             ))
             ->add('status', 'entity', array(
                 'class' => 'Oro\Bundle\IssuesBundle\Entity\IssueStatus',

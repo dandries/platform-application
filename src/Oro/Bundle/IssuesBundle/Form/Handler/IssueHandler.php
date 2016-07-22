@@ -6,6 +6,10 @@ use Oro\Bundle\SoapBundle\Form\Handler\ApiFormHandler;
 
 class IssueHandler extends ApiFormHandler
 {
+    /**
+     * @param mixed $entity
+     * @return mixed
+     */
     protected function prepareFormData($entity)
     {
         if (!$entity->getAssignee()
