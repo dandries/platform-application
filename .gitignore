@@ -4,7 +4,7 @@
 /.idea
 /node_modules
 /composer.phar
-composer.lock
+behat.yml
 /build/logs/*
 /vendor
 /cov
@@ -16,7 +16,7 @@ composer.lock
 /web/build.js
 /app/config/parameters.yml
 /app/config/parameters_test.yml
-/app/build/*
+behat.yml
 *~
 
 /app/SymfonyRequirements.php
