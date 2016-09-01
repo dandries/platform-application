@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\IssuesBundle\Controller;
 
+use Oro\Bundle\IssuesBundle\Form\Handler\IssueHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -10,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Oro\Bundle\IssuesBundle\Entity\Issue;
 use Oro\Bundle\IssuesBundle\Entity\IssueType;
+use Oro\Bundle\IssuesBundle\Form\Type\IssueType as IssueForm;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 
@@ -85,7 +87,7 @@ class IssueController extends Controller
 
         return $this->update($issue);
     }
-    
+
     /**
      * @Route("/update/{id}", name="oro_issue_update")
      * @Acl(
@@ -103,51 +105,22 @@ class IssueController extends Controller
     }
 
     /**
-     * @Route("/chart/{widget}", name="oro_issue_by_status", requirements={"widget"="[\w-]+"})
-     * @AclAncestor("oro_issues.issue_view")
-     *
-     * @Template("OroIssuesBundle:Dashboard:issuesByStatus.html.twig")
+     * @param Issue $issue
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function issuesByStatusChartAction($widget)
-    {
-        $issues = $this->getDoctrine()->getRepository('OroIssuesBundle:Issue')->getByStatus();
-
-        $translator = $this->get('translator');
-
-        foreach ($issues as &$item) {
-            $item['status'] = $translator->trans($item['status']);
-        }
-
-        $widgetOptions = $this->get('oro_dashboard.widget_configs')->getWidgetAttributesForTwig($widget);
-        $widgetOptions['chartView'] = $this->get('oro_chart.view_builder')
-        ->setArrayData($issues)
-        ->setOptions(array(
-            'name' => 'bar_chart',
-            'data_schema' =>array(
-                'label' => array(
-                    'field_name' => 'status',
-                    'label' => 'oro.issues.issue_status_chart.status',
-                    'type' => 'string'
-                ),
-                'value' => array(
-                    'field_name' => 'total',
-                    'label' => 'oro.issues.issue_status_chart.total',
-                    'type' => 'number'
-                )
-            ),
-            'settings' => array(
-                'xNoTicks' => count($issues)
-            )
-        ))->getView();
-
-        return $widgetOptions;
-    }
-
     private function update(Issue $issue)
     {
+        $form = $this->createForm(IssueForm::NAME, $issue);
+
+        $handler = new IssueHandler(
+            $form,
+            $this->getRequest(),
+            $this->getDoctrine()->getManagerForClass('OroIssuesBundle:Issue')
+        );
+
         return $this->get('oro_form.model.update_handler')->handleUpdate(
             $issue,
-            $this->get('oro_issues.form.handler.issue.api')->getForm(),
+            $form,
             function (Issue $issue) {
                 return [
                     'route' => 'oro_issue_update',
@@ -161,7 +134,7 @@ class IssueController extends Controller
                 ];
             },
             $this->get('translator')->trans('oro.issues.issue.save'),
-            $this->get('oro_issues.form.handler.issue.api'),
+            $handler,
             function ($entity, $form, $request) {
                 return array(
                     'form' => $form->createView(),

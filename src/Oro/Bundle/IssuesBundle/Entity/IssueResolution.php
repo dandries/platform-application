@@ -21,7 +21,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class IssueResolution
 {
-
+    const FIXED = 'fixed';
+    const WONT_FIX = 'wont_fix';
+    const DUPLICATE = 'duplicate';
+    const INCOMPLETE = 'incomplete';
+    const DONE = 'done';
+    const WONT_DO = 'wont_do';
+    const REJECTED = 'rejected';
+    const CANNOT_REPRODUCE = 'cant_reproduce';
+    
     /**
      * @var string
      *

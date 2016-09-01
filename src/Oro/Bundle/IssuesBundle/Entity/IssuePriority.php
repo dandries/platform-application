@@ -21,6 +21,11 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  */
 class IssuePriority
 {
+    const MINOR = 'minor';
+    const MAJOR = 'major';
+    const TRIVIAL = 'trivial';
+    const CRITICAL = 'critical';
+    const BLOCKER = 'blocker';
 
     /**
      * @var string

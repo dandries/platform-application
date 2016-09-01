@@ -37,18 +37,13 @@ class AddNoteSubscriber implements EventSubscriber
             return;
         }
 
-        $metadata = $args->getEntityManager()->getClassMetadata(get_class($entity));
+        $issue = $entity->getTarget();
 
-        foreach ($metadata->associationMappings as $associationMappingKey => $associationMapping) {
-            if (strpos($associationMappingKey, self::ISSUE_ASSOCIATION_NAME) !== false) {
-                $getter = 'get' . str_replace('_', '', $associationMappingKey);
-                $issue = $entity->$getter();
-
-                if ($issue instanceof Issue) {
-                    $issue->setUpdatedAt(new \DateTime());
-                }
-            }
+        if (!$issue instanceof Issue) {
+            return;
         }
+
+        $issue->setUpdatedAt(new \DateTime());;
     }
 
     /**

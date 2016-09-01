@@ -14,6 +14,7 @@ class OroIssuesBundle implements Migration, NoteExtensionAwareInterface, Ordered
 {
     /** @var NoteExtension */
     protected $noteExtension;
+
     /**
      * {@inheritdoc}
      */
@@ -21,6 +22,7 @@ class OroIssuesBundle implements Migration, NoteExtensionAwareInterface, Ordered
     {
         $this->noteExtension = $noteExtension;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -28,6 +30,7 @@ class OroIssuesBundle implements Migration, NoteExtensionAwareInterface, Ordered
     {
         self::addNoteAssociations($schema, $this->noteExtension);
     }
+    
     /**
      * Enable notes for Issue entity
      *

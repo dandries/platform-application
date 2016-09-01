@@ -27,12 +27,12 @@ class IssueControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('oro_issue_create'));
         $form = $crawler->selectButton('Save and Close')->form();
 
-        $form['issue_type_form[summary]'] = 'Test summary';
-        $form['issue_type_form[code]'] = 'Test code';
-        $form['issue_type_form[description]'] = 'Test description';
-        $form['issue_type_form[type]'] = 'task';
-        $form['issue_type_form[priority]'] = 'minor';
-        $form['issue_type_form[assignee]'] = $this->adminUser->getId();
+        $form['issue_type[summary]'] = 'Test summary';
+        $form['issue_type[code]'] = 'Test code';
+        $form['issue_type[description]'] = 'Test description';
+        $form['issue_type[type]'] = 'task';
+        $form['issue_type[priority]'] = 'minor';
+        $form['issue_type[assignee]'] = $this->adminUser->getId();
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);
@@ -73,7 +73,7 @@ class IssueControllerTest extends WebTestCase
             $this->getUrl('oro_issue_update', array('id' => $result['id']))
         );
         $form = $crawler->selectButton('Save and Close')->form();
-        $form['issue_type_form[summary]'] = 'Summary update';
+        $form['issue_type[summary]'] = 'Summary update';
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);
@@ -98,19 +98,5 @@ class IssueControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertContains("Summary update", $crawler->html());
-    }
-
-    /**
-     * @depends testCreate
-     */
-    public function testIssuesByStatusChart()
-    {
-        $this->client->request(
-            'GET',
-            $this->getUrl('oro_issue_by_status', array('widget' => 'issues_by_status'))
-        );
-
-        $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
     }
 }
