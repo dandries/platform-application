@@ -1,0 +1,24 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+{{ UI.clientButton({
+    'dataUrl': path('oro_issue_create' , oro_action_params(entity)),
+    'aCss': 'no-hash',
+    'dataId': entity.id,
+    'label': 'oro.issues.assign_ticket'|trans,
+    'title': 'oro.issues.issue.entity_label'|trans,
+    'widget' : {
+        'type' : 'dialog',
+        'multiple' : true,
+        'options' : {
+            'alias': 'issue-dialog',
+            'dialogOptions' : {
+                'title' : 'oro.issues.issue.create'|trans,
+                'allowMaximize': true,
+                'allowMinimize': true,
+                'dblclick': 'maximize',
+                'maximizedHeightDecreaseBy': 'minimize-bar',
+                'width': 1000
+            }
+        }
+    }
+}) }}

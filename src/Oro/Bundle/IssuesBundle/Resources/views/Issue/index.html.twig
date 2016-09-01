@@ -1,0 +1,19 @@
+{% extends 'OroUIBundle:actions:index.html.twig' %}
+{% set gridName = 'issues-grid' %}
+{% set pageTitle = 'oro.issues.issue.entity_plural_label'|trans %}
+
+{% block navButtons %}
+    {% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
+        entity_class: entity_class,
+        exportProcessor: 'oro_issues_issue',
+        importProcessor: 'oro_issues_issue.add_or_replace',
+        dataGridName: gridName
+    } %}
+
+    <div class="btn-group">
+        {{ UI.addButton({
+            'path': path('oro_issue_create'),
+            'entity_label': 'oro.issues.issue.entity_label'|trans
+        }) }}
+    </div>
+{% endblock %}

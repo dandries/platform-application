@@ -1,0 +1,57 @@
+definitions:
+    update_issue_status:
+        label:   Update issue status
+        enabled: true
+        order:   80
+        entity:  Oro\Bundle\IssuesBundle\Entity\Issue
+        actions_configuration:
+            - @find_entity:
+                conditions:
+                    @empty: $status
+                parameters:
+                    class: Oro\Bundle\IssuesBundle\Entity\IssueStatus
+                    attribute: $status
+                    identifier: 'new'
+
+    set_issue_reporter:
+        label:   Set issue reporter
+        enabled: true
+        order:   90
+        entity:  Oro\Bundle\IssuesBundle\Entity\Issue
+        pre_conditions:
+            @empty: $reporter
+        actions_configuration:
+            - @assign_active_user: $reporter
+
+    update_issue_collaborators:
+        label: Update issue collaborators when adding notes
+        enabled: true
+        order: 100
+        entity: Oro\Bundle\NoteBundle\Entity\Note
+        actions_configuration:
+            - @call_method:
+                conditions:
+                    - '@instanceof': [$target, Oro\Bundle\IssuesBundle\Entity\Issue]
+                flush: true
+                parameters:
+                    object: $target
+                    method: addCollaborator
+                    method_parameters: [$owner]
+
+triggers:
+    update_issue_status:
+        -
+            event: create
+        -
+            event: update
+            field: status
+
+    set_issue_reporter:
+        -
+            event: create
+
+    update_issue_collaborators:
+        -
+            event: create
+        -
+            event: update

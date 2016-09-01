@@ -1,0 +1,124 @@
+workflows:
+    issue_flow:
+        label: 'Issue Work Flow'
+        entity: Oro\Bundle\IssuesBundle\Entity\Issue
+        entity_attribute: issue
+        start_step: new
+        steps_display_ordered: true
+
+        steps:
+            new:
+                label: 'Open'
+                order: 10
+                allowed_transitions:
+                    - start_progress
+                    - resolve
+                    - close
+            in_progress:
+                label: 'In progress'
+                order: 20
+                allowed_transitions:
+                    - stop_progress
+                    - resolve
+                    - close
+            resolved:
+                label: 'Resolve'
+                order: 30
+                allowed_transitions:
+                    - close
+                    - reopen
+            closed:
+                label: 'Close'
+                order: 40
+                allowed_transitions:
+                    - reopen
+            reopened:
+                label: 'Reopen'
+                order: 50
+                allowed_transitions:
+                    - start_progress
+
+        transitions:
+            start_progress:
+                label: 'Start progress'
+                step_to: in_progress
+                frontend_options:
+                    icon: 'icon-play'
+                transition_definition: start_progress_definition
+            stop_progress:
+                label: 'Stop progress'
+                step_to: new
+                frontend_options:
+                    icon: 'icon-stop'
+                transition_definition: stop_progress_definition
+            resolve:
+                label: 'Resolve'
+                step_to: resolved
+                frontend_options:
+                    icon: 'icon-ok'
+                transition_definition: resolved_definition
+            close:
+                label: 'Close'
+                step_to: closed
+                frontend_options:
+                    icon: 'icon-ok'
+                transition_definition: closed_definition
+                form_options:
+                    attribute_fields:
+                        resolution:
+                            form_type: entity
+                            options:
+                                class: Oro\Bundle\IssuesBundle\Entity\IssueResolution
+                                required: true
+                                constraints:
+                                    - NotBlank: ~
+
+            reopen:
+                label: 'Reopen'
+                step_to: new
+                frontend_options:
+                    icon: 'icon-edit'
+                transition_definition: reopen_definition
+
+        transition_definitions:
+            start_progress_definition:
+                post_actions:
+                    - @find_entity: # Set call status to in_progress
+                        class: Oro\Bundle\IssuesBundle\Entity\IssueStatus
+                        where:
+                            name: 'in_progress'
+                        attribute: $issue.status
+            resolved_definition:
+                post_actions:
+                    - @find_entity: # Set call status to in_progress
+                        class: Oro\Bundle\IssuesBundle\Entity\IssueStatus
+                        where:
+                            name: 'resolved'
+                        attribute: $issue.status
+            closed_definition:
+                post_actions:
+                    - @find_entity: # Set call status to in_progress
+                        class: Oro\Bundle\IssuesBundle\Entity\IssueStatus
+                        where:
+                            name: 'closed'
+                        attribute: $issue.status
+            stop_progress_definition:
+                post_actions:
+                    - @find_entity: # Set call status to in_progress
+                        class: Oro\Bundle\IssuesBundle\Entity\IssueStatus
+                        where:
+                            name: 'new'
+                        attribute: $issue.status
+            reopen_definition:
+                post_actions:
+                    - @find_entity: # Set call status to in_progress
+                        class: Oro\Bundle\IssuesBundle\Entity\IssueStatus
+                        where:
+                            name: 'reopened'
+                        attribute: $issue.status
+
+
+        attributes:
+            resolution:
+                label: 'Resolution'
+                property_path: issue.resolution

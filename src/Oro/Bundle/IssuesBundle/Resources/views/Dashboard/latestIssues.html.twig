@@ -1,0 +1,19 @@
+{% extends 'OroDashboardBundle:Dashboard:widget.html.twig' %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{% block content %}
+    {{ dataGrid.renderGrid('latest-issues-grid', {'userId' : app.user }) }}
+    <script type="text/javascript">
+        require(['orocrm/call/info-opener']);
+    </script>
+{% endblock %}
+
+{% block actions %}
+    {% set actions = [{
+        'url': path('oro_issue_index', { 'issues-grid': { '_filter': { 'collaborator': { 'value': app.user.id, 'type': '1' } } }}),
+        'type': 'link',
+        'label': 'oro.issues.latest_issues.view_all'|trans
+    }] %}
+
+    {{ parent() }}
+{% endblock %}
