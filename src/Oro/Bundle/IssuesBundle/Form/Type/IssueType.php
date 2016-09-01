@@ -14,7 +14,12 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 class IssueType extends AbstractType
 {
+    const NAME = 'issue_type';
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -53,6 +58,9 @@ class IssueType extends AbstractType
             ->add('tags', 'oro_tag_select', array('label' => 'oro.tag.entity_plural_label'));
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -67,6 +75,6 @@ class IssueType extends AbstractType
      */
     public function getName()
     {
-        return 'issue_type';
+        return self::NAME;
     }
 }

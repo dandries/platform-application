@@ -5,9 +5,9 @@ namespace Oro\Bundle\IssuesBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Oro\Bundle\IssuesBundle\Model\ExtendIssue;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\IssuesBundle\Model\ExtendIssue;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
@@ -329,6 +329,8 @@ class Issue extends ExtendIssue
     public function setSummary($summary)
     {
         $this->summary = $summary;
+
+        return $this;
     }
 
     /**
@@ -345,6 +347,8 @@ class Issue extends ExtendIssue
     public function setCode($code)
     {
         $this->code = $code;
+
+        return $this;
     }
 
     /**
@@ -361,6 +365,8 @@ class Issue extends ExtendIssue
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -377,6 +383,8 @@ class Issue extends ExtendIssue
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -393,6 +401,8 @@ class Issue extends ExtendIssue
     public function setPriority($priority)
     {
         $this->priority = $priority;
+
+        return $this;
     }
 
     /**
@@ -409,6 +419,8 @@ class Issue extends ExtendIssue
     public function setResolution($resolution)
     {
         $this->resolution = $resolution;
+
+        return $this;
     }
 
     /**
@@ -425,6 +437,8 @@ class Issue extends ExtendIssue
     public function setStatus($status)
     {
         $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -441,6 +455,8 @@ class Issue extends ExtendIssue
     public function setTags($tags)
     {
         $this->tags = $tags;
+
+        return $this;
     }
 
     /**
@@ -459,6 +475,8 @@ class Issue extends ExtendIssue
         $this->reporter = $reporter;
 
         $this->addCollaborator($reporter);
+
+        return $this;
     }
 
     /**
@@ -477,6 +495,8 @@ class Issue extends ExtendIssue
         $this->assignee = $assignee;
 
         $this->addCollaborator($assignee);
+
+        return $this;
     }
 
     /**
@@ -493,6 +513,8 @@ class Issue extends ExtendIssue
     public function setCollaborators($collaborators)
     {
         $this->collaborators = $collaborators;
+
+        return $this;
     }
 
     /**
@@ -527,6 +549,8 @@ class Issue extends ExtendIssue
     public function setParent($parent)
     {
         $this->parent = $parent;
+
+        return $this;
     }
 
     /**
@@ -543,6 +567,8 @@ class Issue extends ExtendIssue
     public function setRelatedIssues($relatedIssues)
     {
         $this->relatedIssues = $relatedIssues;
+
+        return $this;
     }
 
     /**
@@ -613,6 +639,8 @@ class Issue extends ExtendIssue
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
@@ -629,6 +657,8 @@ class Issue extends ExtendIssue
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**

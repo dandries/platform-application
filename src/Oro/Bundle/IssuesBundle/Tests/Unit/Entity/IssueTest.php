@@ -16,6 +16,9 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->issue = new Issue();
     }
 
+    /**
+     * @return array
+     */
     public function settersAndGettersDataProvider()
     {
         $user = $this->getMock('Oro\Bundle\UserBundle\Entity\User');

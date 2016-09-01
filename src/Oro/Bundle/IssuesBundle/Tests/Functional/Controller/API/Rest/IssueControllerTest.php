@@ -165,6 +165,9 @@ class IssueControllerTest extends WebTestCase
         $this->assertJsonResponseStatusCodeEquals($result, 404);
     }
 
+    /**
+     * @param array $actual
+     */
     private function checkIssue($actual = array())
     {
         $this->assertArrayIntersectEquals(
@@ -182,7 +185,6 @@ class IssueControllerTest extends WebTestCase
         $this->assertNotEmpty($actual['createdAt']);
         $this->assertArrayHasKey('updatedAt', $actual);
         $this->assertNotEmpty($actual['updatedAt']);
-        ;
         $this->assertArrayHasKey('id', $actual);
         $this->assertGreaterThan(0, $actual['id']);
     }

@@ -30,6 +30,8 @@ definitions:
         entity: Oro\Bundle\NoteBundle\Entity\Note
         actions_configuration:
             - @call_method:
+                conditions:
+                    - '@instanceof': [$target, Oro\Bundle\IssuesBundle\Entity\Issue]
                 flush: true
                 parameters:
                     object: $target

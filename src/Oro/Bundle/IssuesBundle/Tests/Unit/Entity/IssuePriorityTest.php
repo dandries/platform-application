@@ -6,7 +6,9 @@ use Oro\Bundle\IssuesBundle\Entity\IssuePriority;
 
 class IssuePriorityTest extends \PHPUnit_Framework_TestCase
 {
-
+    /**
+     * @return array
+     */
     public function settersAndGettersDataProvider()
     {
         return array(

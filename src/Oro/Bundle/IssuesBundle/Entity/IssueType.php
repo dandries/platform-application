@@ -77,6 +77,7 @@ class IssueType
     public function setLabel($label)
     {
         $this->label = $label;
+
         return $this;
     }
 

@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityRepository;
 class IssueRepository extends EntityRepository
 {
     /**
+     * Get issues grouped by status
+     *
      * @return array
      */
     public function getByStatus()

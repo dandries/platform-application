@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\IssuesBundle\Controller\Api\Rest;
 
+use Oro\Bundle\IssuesBundle\Entity\Issue;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -156,4 +157,38 @@ class IssueController extends RestController
     {
         return $this->get('oro_issues.form.handler.issue.api');
     }
+
+    /**
+     * Process form.
+     *
+     * @param mixed $entity
+     *
+     * @return mixed|null The instance of saved entity on successful processing; otherwise, null
+     */
+    protected function processForm($entity)
+    {
+        $this->fixRequestAttributes($entity);
+        $this->getFormHandler()->setDefaults($entity);
+        $request = $this->get('request');
+        $form = $this->createForm(
+            $this->get('oro_issues.form.issue.api'),
+            $entity,
+            ['hasParent' => (bool)$request->get('parent')]
+        );
+
+        $form->setData($entity);
+
+        $result = null;
+        if (in_array($request->getMethod(), ['POST', 'PUT'], true)) {
+            $form->submit($request);
+            if ($form->isValid()) {
+                $em = $this->get('oro_entity.doctrine_helper')->getEntityManager(Issue::class);
+                $em->persist($entity);
+                $em->flush();
+            }
+        }
+
+        return $entity;
+    }
+
 }
